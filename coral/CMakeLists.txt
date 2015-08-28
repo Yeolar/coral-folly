@@ -1,0 +1,100 @@
+#
+# Copyright (C) 2015, Yeolar
+#
+
+set(CORAL_BASE_SRCS
+    Conv.cpp
+    Demangle.cpp
+    dynamic.cpp
+    File.cpp
+    FileUtil.cpp
+    Format.cpp
+    json.cpp
+    Malloc.cpp
+    Range.cpp
+    SpookyHashV1.cpp
+    SpookyHashV2.cpp
+    StringBase.cpp
+    String.cpp
+    Unicode.cpp
+    build/EscapeTables.cpp
+    build/FormatTables.cpp
+    detail/Clock.cpp
+    detail/FunctionalExcept.cpp
+    detail/MallocImpl.cpp
+)
+add_library(coral
+    ${CORAL_BASE_SRCS}
+)
+target_link_libraries(coral
+    boost_filesystem
+    boost_regex
+    boost_system
+    boost_thread
+    double-conversion
+    gflags
+    glog
+    iberty                      # coral/Demangle.cpp
+    pthread
+)
+
+
+install(FILES
+    ApplyTuple.h
+    Conv.h
+    coral-config.h
+    CPortability.h
+    CpuId.h
+    Demangle.h
+    DynamicConverter.h
+    dynamic.h
+    dynamic-inl.h
+    Exception.h
+    FBString.h
+    FBVector.h
+    File.h
+    FileUtil.h
+    Foreach.h
+    FormatArg.h
+    Format.h
+    Format-inl.h
+    FormatTraits.h
+    Hash.h
+    json.h
+    Likely.h
+    Malloc.h
+    MapUtil.h
+    Memory.h
+    MicroSpinLock.h
+    Optional.h
+    PicoSpinLock.h
+    Portability.h
+    Preprocessor.h
+    Range.h
+    RWSpinLock.h
+    ScopeGuard.h
+    SmallLocks.h
+    SpinLock.h
+    SpookyHashV1.h
+    SpookyHashV2.h
+    String.h
+    String-inl.h
+    Synchronized.h
+    Traits.h
+    Unicode.h
+    DESTINATION include/coral)
+install(FILES
+    detail/Clock.h
+    detail/FunctionalExcept.h
+    detail/Malloc.h
+    detail/Sleeper.h
+    detail/SpinLockImpl.h
+    detail/UncaughtExceptionCounter.h
+    DESTINATION include/coral/detail)
+install(TARGETS
+    coral
+    DESTINATION lib
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                GROUP_READ GROUP_EXECUTE
+                WORLD_READ WORLD_EXECUTE)
+
