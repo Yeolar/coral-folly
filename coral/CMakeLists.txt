@@ -31,14 +31,8 @@ set(CORAL_BASE_SRCS
 add_library(coral
     ${CORAL_BASE_SRCS}
 )
-target_link_libraries(coral
-    ${CORAL_LINK_BOOST}
-    ${CORAL_LINK_IBERTY}
-    double-conversion
-    gflags
-    glog
-    pthread
-)
+#target_link_libraries(coral
+#)
 
 
 install(FILES

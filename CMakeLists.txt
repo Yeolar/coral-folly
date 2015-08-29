@@ -98,6 +98,22 @@ add_definitions(
     -std=c++11
 )
 
+# Link libraries
+link_libraries(
+    ${CORAL_LINK_BOOST}
+    double-conversion
+    gflags
+    pthread
+)
+if(CORAL_HAVE_LIBGLOG AND CORAL_USE_GLOG)
+    link_libraries(glog)
+endif()
+
+if(APPLE)
+    find_library(MAC_FRAMEWORKS NAMES CoreFoundation)
+    link_libraries(${MAC_FRAMEWORKS})
+endif()
+
 # Check and setup configurations
 include(CheckCXXSourceCompiles REQUIRED)
 include(CheckFunctionExists REQUIRED)
@@ -156,7 +172,7 @@ check_library_exists(rt
     clock_gettime /usr/lib CORAL_HAVE_CLOCK_GETTIME)
 
 if(CORAL_HAVE_CPLUS_DEMANGLE_V3_CALLBACK)
-    set(CORAL_LINK_IBERTY iberty)
+    link_libraries(iberty)
 endif()
 
 if(NOT CORAL_HAVE_PTHREAD_YIELD)
