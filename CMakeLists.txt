@@ -23,6 +23,20 @@ cmake_minimum_required(VERSION 2.6)
 
 enable_testing()
 
+# http://www.cmake.org/Wiki/CMake_RPATH_handling#Mac_OS_X_and_the_RPATH
+if(APPLE)
+    set(CMAKE_MACOSX_RPATH ON)
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES
+        "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+    if("${isSystemDir}" STREQUAL "-1")
+        set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+    endif()
+endif()
+
 # Required packages
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 find_package(Threads REQUIRED)
@@ -36,6 +50,13 @@ set(CORAL_HAVE_BOOST_PROGRAM_OPTIONS ${Boost_PROGRAM_OPTIONS_FOUND})
 set(CORAL_HAVE_BOOST_REGEX ${Boost_REGEX_FOUND})
 set(CORAL_HAVE_BOOST_SYSTEM ${Boost_SYSTEM_FOUND})
 set(CORAL_HAVE_BOOST_THREAD ${Boost_THREAD_FOUND})
+if(APPLE)
+    set(CORAL_LINK_BOOST_LIBS
+        boost_filesystem-mt boost_regex-mt boost_system-mt boost_thread-mt)
+else()
+    set(CORAL_LINK_BOOST_LIBS
+        boost_filesystem boost_regex boost_system boost_thread)
+endif()
 
 find_package(double-conversion REQUIRED)
 set(CORAL_HAVE_LIBDOUBLE_CONVERSION ${double-conversion_FOUND})
@@ -71,7 +92,6 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 add_definitions(
     -std=c++11
-    -mcrc32     # for __builtin_ia32_crc32*i
 )
 
 # Check and setup configurations

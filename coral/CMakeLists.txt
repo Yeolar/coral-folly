@@ -27,14 +27,10 @@ add_library(coral
     ${CORAL_BASE_SRCS}
 )
 target_link_libraries(coral
-    boost_filesystem
-    boost_regex
-    boost_system
-    boost_thread
+    ${CORAL_LINK_BOOST_LIBS}
     double-conversion
     gflags
     glog
-    iberty                      # coral/Demangle.cpp
     pthread
 )
 
