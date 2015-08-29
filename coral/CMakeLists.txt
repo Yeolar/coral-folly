@@ -18,6 +18,7 @@ set(CORAL_BASE_SRCS
     SpookyHashV2.cpp
     StringBase.cpp
     String.cpp
+    TypeDef.cpp
     Unicode.cpp
     build/EscapeTables.cpp
     build/FormatTables.cpp
@@ -67,6 +68,7 @@ install(FILES
     MapUtil.h
     Memory.h
     MicroSpinLock.h
+    NumericRange.h
     Optional.h
     PicoSpinLock.h
     Portability.h
@@ -85,6 +87,7 @@ install(FILES
     Synchronized.h
     ThreadLocal.h
     Traits.h
+    TypeDef.h
     Unicode.h
     DESTINATION include/coral
 )

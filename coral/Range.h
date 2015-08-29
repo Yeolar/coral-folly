@@ -23,7 +23,9 @@
 
 #include <coral/Portability.h>
 #include <coral/FBString.h>
+#include <coral/NumericRange.h>
 #include <coral/SpookyHashV2.h>
+#include <coral/TypeDef.h>
 
 #include <algorithm>
 #include <boost/operators.hpp>
@@ -138,6 +140,24 @@ struct IsCharPointer<char*> {
 
 template <>
 struct IsCharPointer<const char*> {
+  typedef int const_type;
+  typedef int type;
+};
+
+/*
+ * Use IsUnsignedCharPointer<T>::type to enable const unsigned char* or
+ * unsigned char*.
+ * Use IsUnsignedCharPointer<T>::const_type to enable only const unsigned char*.
+ */
+template <class T> struct IsUnsignedCharPointer {};
+
+template <>
+struct IsUnsignedCharPointer<unsigned char*> {
+  typedef int type;
+};
+
+template <>
+struct IsUnsignedCharPointer<const unsigned char*> {
   typedef int const_type;
   typedef int type;
 };
@@ -258,6 +278,36 @@ public:
   template <class T = Iter, typename detail::IsCharPointer<T>::const_type = 0>
   Range(const fbstring& str, fbstring::size_type startFrom,
         fbstring::size_type size) {
+    if (UNLIKELY(startFrom > str.size())) {
+      throw std::out_of_range("index out of range");
+    }
+    b_ = str.data() + startFrom;
+    if (str.size() - startFrom < size) {
+      e_ = str.data() + str.size();
+    } else {
+      e_ = b_ + size;
+    }
+  }
+
+  // Extend for byte_string.
+  template <class T = Iter,
+    typename detail::IsUnsignedCharPointer<T>::const_type = 0>
+  /* implicit */ Range(const byte_string& str)
+    : b_(str.data()), e_(b_ + str.size()) { }
+
+  template <class T = Iter,
+    typename detail::IsUnsignedCharPointer<T>::const_type = 0>
+  Range(const byte_string& str, byte_string::size_type startFrom) {
+    if (UNLIKELY(startFrom > str.size())) {
+      throw std::out_of_range("index out of range");
+    }
+    b_ = str.data() + startFrom;
+    e_ = str.data() + str.size();
+  }
+  template <class T = Iter,
+    typename detail::IsUnsignedCharPointer<T>::const_type = 0>
+  Range(const byte_string& str, byte_string::size_type startFrom,
+        byte_string::size_type size) {
     if (UNLIKELY(startFrom > str.size())) {
       throw std::out_of_range("index out of range");
     }
@@ -475,6 +525,11 @@ public:
     }
 
     return Range(b_ + first, std::min(length, size() - first));
+  }
+
+  Range subpiece(const NumericRange<size_type>& range) const {
+    if (range.isReversed()) return Range();
+    return subpiece(range.begin, range.size());
   }
 
   // string work-alike functions

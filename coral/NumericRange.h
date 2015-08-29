@@ -95,23 +95,23 @@ inline bool operator<(const NumericRange<T>& x, const NumericRange<T>& y) {
 }
 
 template <class T>
-inline void swap(NumericRange<T>& x, NumericRange<T>& y) noexcept {
+void swap(NumericRange<T>& x, NumericRange<T>& y) {
   x.swap(y);
 }
 
 template <class T>
-inline NumericRange<T> makeNumericRange(const T& b, const T& e) {
+NumericRange<T> numericRange(const T& b, const T& e) {
   return NumericRange<T>(b, e);
 }
 
 typedef NumericRange<size_t> SizeRange;
 typedef NumericRange<ssize_t> SSizeRange;
 
-inline SizeRange makeSizeRange(size_t b, size_t e) {
+inline SizeRange sizeRange(size_t b, size_t e) {
   return SizeRange(b, e);
 }
 
-inline SSizeRange makeSSizeRange(ssize_t b, ssize_t e) {
+inline SSizeRange ssizeRange(ssize_t b, ssize_t e) {
   return SSizeRange(b, e);
 }
 
