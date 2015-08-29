@@ -3,6 +3,7 @@
 #
 
 set(CORAL_BASE_SRCS
+    Benchmark.cpp
     Conv.cpp
     Demangle.cpp
     dynamic.cpp
@@ -11,6 +12,7 @@ set(CORAL_BASE_SRCS
     Format.cpp
     json.cpp
     Malloc.cpp
+    Random.cpp
     Range.cpp
     SpookyHashV1.cpp
     SpookyHashV2.cpp
@@ -27,7 +29,8 @@ add_library(coral
     ${CORAL_BASE_SRCS}
 )
 target_link_libraries(coral
-    ${CORAL_LINK_BOOST_LIBS}
+    ${CORAL_LINK_BOOST}
+    ${CORAL_LINK_IBERTY}
     double-conversion
     gflags
     glog
@@ -37,6 +40,7 @@ target_link_libraries(coral
 
 install(FILES
     ApplyTuple.h
+    Benchmark.h
     Conv.h
     coral-config.h
     CPortability.h
@@ -66,6 +70,8 @@ install(FILES
     PicoSpinLock.h
     Portability.h
     Preprocessor.h
+    Random.h
+    Random-inl.h
     Range.h
     RWSpinLock.h
     ScopeGuard.h
@@ -76,21 +82,26 @@ install(FILES
     String.h
     String-inl.h
     Synchronized.h
+    ThreadLocal.h
     Traits.h
     Unicode.h
-    DESTINATION include/coral)
+    DESTINATION include/coral
+)
 install(FILES
     detail/Clock.h
     detail/FunctionalExcept.h
     detail/Malloc.h
     detail/Sleeper.h
     detail/SpinLockImpl.h
+    detail/ThreadLocalDetail.h
     detail/UncaughtExceptionCounter.h
-    DESTINATION include/coral/detail)
+    DESTINATION include/coral/detail
+)
 install(TARGETS
     coral
     DESTINATION lib
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
                 GROUP_READ GROUP_EXECUTE
-                WORLD_READ WORLD_EXECUTE)
+                WORLD_READ WORLD_EXECUTE
+)
 

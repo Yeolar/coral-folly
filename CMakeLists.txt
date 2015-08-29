@@ -14,14 +14,12 @@ endif()
 # Define project
 project(coral)
 
-set(VERSION_MAJOR 0)
-set(VERSION_MINOR 55)
+set(VERSION_MAJOR 55)
+set(VERSION_MINOR 0)
 set(VERSION_MICRO 0)
 set(VERSION_PATCH 0)
 
 cmake_minimum_required(VERSION 2.6)
-
-enable_testing()
 
 # http://www.cmake.org/Wiki/CMake_RPATH_handling#Mac_OS_X_and_the_RPATH
 if(APPLE)
@@ -51,10 +49,10 @@ set(CORAL_HAVE_BOOST_REGEX ${Boost_REGEX_FOUND})
 set(CORAL_HAVE_BOOST_SYSTEM ${Boost_SYSTEM_FOUND})
 set(CORAL_HAVE_BOOST_THREAD ${Boost_THREAD_FOUND})
 if(APPLE)
-    set(CORAL_LINK_BOOST_LIBS
+    set(CORAL_LINK_BOOST
         boost_filesystem-mt boost_regex-mt boost_system-mt boost_thread-mt)
 else()
-    set(CORAL_LINK_BOOST_LIBS
+    set(CORAL_LINK_BOOST
         boost_filesystem boost_regex boost_system boost_thread)
 endif()
 
@@ -95,11 +93,11 @@ add_definitions(
 )
 
 # Check and setup configurations
-include(CheckCXXSourceCompiles)
-include(CheckFunctionExists)
-include(CheckIncludeFileCXX)
-include(CheckLibraryExists)
-include(CheckTypeSize)
+include(CheckCXXSourceCompiles REQUIRED)
+include(CheckFunctionExists REQUIRED)
+include(CheckIncludeFileCXX REQUIRED)
+include(CheckLibraryExists REQUIRED)
+include(CheckTypeSize REQUIRED)
 
 check_include_file_cxx(byteswap.h CORAL_HAVE_BYTESWAP_H)
 check_include_file_cxx(dlfcn.h CORAL_HAVE_DLFCN_H)
@@ -150,6 +148,10 @@ check_library_exists(pthread
     pthread_yield /usr/lib CORAL_HAVE_PTHREAD_YIELD)
 check_library_exists(rt
     clock_gettime /usr/lib CORAL_HAVE_CLOCK_GETTIME)
+
+if(CORAL_HAVE_CPLUS_DEMANGLE_V3_CALLBACK)
+    set(CORAL_LINK_IBERTY iberty)
+endif()
 
 if(NOT CORAL_HAVE_PTHREAD_YIELD)
     check_include_file_cxx(sched.h CORAL_HAVE_SCHED_H)
@@ -255,4 +257,9 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 # Work on all sub directories
 add_subdirectory(coral)
+
+if(GTEST_FOUND)
+    enable_testing()
+    add_subdirectory(coral/test)
+endif()
 
