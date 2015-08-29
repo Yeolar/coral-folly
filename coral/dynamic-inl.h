@@ -42,7 +42,22 @@ struct hash< ::coral::dynamic> {
 
 // This is a higher-order preprocessor macro to aid going from runtime
 // types to the compile time type system.
-#define CR_DYNAMIC_APPLY(type, apply) do {         \
+#if CORAL_DYNAMIC_EXTEND_DATA
+#define CR_DYNAMIC_APPLY(type, apply) do {      \
+  switch ((type)) {                             \
+  case NULLT:   apply(void*);          break;   \
+  case ARRAY:   apply(Array);          break;   \
+  case BOOL:    apply(bool);           break;   \
+  case DOUBLE:  apply(double);         break;   \
+  case INT64:   apply(int64_t);        break;   \
+  case OBJECT:  apply(ObjectImpl);     break;   \
+  case STRING:  apply(fbstring);       break;   \
+  case DATA:    apply(byte_string);    break;   \
+  default:      CHECK(0); abort();              \
+  }                                             \
+} while (0)
+#else
+#define CR_DYNAMIC_APPLY(type, apply) do {      \
   switch ((type)) {                             \
   case NULLT:   apply(void*);          break;   \
   case ARRAY:   apply(Array);          break;   \
@@ -54,6 +69,7 @@ struct hash< ::coral::dynamic> {
   default:      CHECK(0); abort();              \
   }                                             \
 } while (0)
+#endif
 
 //////////////////////////////////////////////////////////////////////
 
@@ -283,6 +299,32 @@ inline dynamic::dynamic(fbstring&& s)
   new (&u_.string) fbstring(std::move(s));
 }
 
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline dynamic::dynamic(ByteRange s)
+  : type_(DATA)
+{
+  new (&u_.data) byte_string(s.data(), s.size());
+}
+
+inline dynamic::dynamic(unsigned char const* s)
+  : type_(DATA)
+{
+  new (&u_.data) byte_string(s);
+}
+
+inline dynamic::dynamic(byte_string const& s)
+  : type_(DATA)
+{
+  new (&u_.data) byte_string(s);
+}
+
+inline dynamic::dynamic(byte_string&& s)
+  : type_(DATA)
+{
+  new (&u_.data) byte_string(std::move(s));
+}
+#endif
+
 inline dynamic::dynamic(std::initializer_list<dynamic> il)
   : type_(ARRAY)
 {
@@ -368,6 +410,9 @@ inline dynamic::IterableProxy<dynamic::const_item_iterator> dynamic::items()
 }
 
 inline bool dynamic::isString() const { return get_nothrow<fbstring>(); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline bool dynamic::isData()   const { return get_nothrow<byte_string>(); }
+#endif
 inline bool dynamic::isObject() const { return get_nothrow<ObjectImpl>(); }
 inline bool dynamic::isBool()   const { return get_nothrow<bool>(); }
 inline bool dynamic::isArray()  const { return get_nothrow<Array>(); }
@@ -380,29 +425,47 @@ inline dynamic::Type dynamic::type() const {
   return type_;
 }
 
-inline fbstring dynamic::asString() const { return asImpl<fbstring>(); }
-inline double   dynamic::asDouble() const { return asImpl<double>(); }
-inline int64_t  dynamic::asInt()    const { return asImpl<int64_t>(); }
-inline bool     dynamic::asBool()   const { return asImpl<bool>(); }
+inline fbstring dynamic::asString()  const { return asImpl<fbstring>(); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline byte_string dynamic::asData() const { return asImpl<byte_string>(); }
+#endif
+inline double   dynamic::asDouble()  const { return asImpl<double>(); }
+inline int64_t  dynamic::asInt()     const { return asImpl<int64_t>(); }
+inline bool     dynamic::asBool()    const { return asImpl<bool>(); }
 
-inline const fbstring& dynamic::getString() const& { return get<fbstring>(); }
-inline double          dynamic::getDouble() const& { return get<double>(); }
-inline int64_t         dynamic::getInt()    const& { return get<int64_t>(); }
-inline bool            dynamic::getBool()   const& { return get<bool>(); }
+inline const fbstring& dynamic::getString()  const& { return get<fbstring>(); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline const byte_string& dynamic::getData() const& { return get<byte_string>(); }
+#endif
+inline double          dynamic::getDouble()  const& { return get<double>(); }
+inline int64_t         dynamic::getInt()     const& { return get<int64_t>(); }
+inline bool            dynamic::getBool()    const& { return get<bool>(); }
 
-inline fbstring& dynamic::getString() & { return get<fbstring>(); }
-inline double&   dynamic::getDouble() & { return get<double>(); }
-inline int64_t&  dynamic::getInt()    & { return get<int64_t>(); }
-inline bool&     dynamic::getBool()   & { return get<bool>(); }
+inline fbstring& dynamic::getString()  & { return get<fbstring>(); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline byte_string& dynamic::getData() & { return get<byte_string>(); }
+#endif
+inline double&   dynamic::getDouble()  & { return get<double>(); }
+inline int64_t&  dynamic::getInt()     & { return get<int64_t>(); }
+inline bool&     dynamic::getBool()    & { return get<bool>(); }
 
-inline fbstring dynamic::getString() && { return std::move(get<fbstring>()); }
-inline double   dynamic::getDouble() && { return get<double>(); }
-inline int64_t  dynamic::getInt()    && { return get<int64_t>(); }
-inline bool     dynamic::getBool()   && { return get<bool>(); }
+inline fbstring dynamic::getString()  && { return std::move(get<fbstring>()); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline byte_string dynamic::getData() && { return std::move(get<byte_string>()); }
+#endif
+inline double   dynamic::getDouble()  && { return get<double>(); }
+inline int64_t  dynamic::getInt()     && { return get<int64_t>(); }
+inline bool     dynamic::getBool()    && { return get<bool>(); }
 
 inline const char* dynamic::data()  const& { return get<fbstring>().data();  }
 inline const char* dynamic::c_str() const& { return get<fbstring>().c_str(); }
 inline StringPiece dynamic::stringPiece() const { return get<fbstring>(); }
+#if CORAL_DYNAMIC_EXTEND_DATA
+inline const unsigned char* dynamic::byte_data() const& {
+  return get<byte_string>().data();
+}
+inline ByteRange dynamic::byteRange() const { return get<byte_string>(); }
+#endif
 
 template<class T>
 struct dynamic::CompareOp {
@@ -590,12 +653,51 @@ template<class T> struct dynamic::TypeInfo {
 CR_DEC_TYPE(void*);
 CR_DEC_TYPE(bool);
 CR_DEC_TYPE(fbstring);
+#if CORAL_DYNAMIC_EXTEND_DATA
+CR_DEC_TYPE(byte_string);
+#endif
 CR_DEC_TYPE(dynamic::Array);
 CR_DEC_TYPE(double);
 CR_DEC_TYPE(int64_t);
 CR_DEC_TYPE(dynamic::ObjectImpl);
 
 #undef CR_DEC_TYPE
+
+#if CORAL_DYNAMIC_EXTEND_DATA
+
+template<class T>
+typename std::enable_if<
+  !std::is_same<T, byte_string>::value, T>::type
+dynamic::asImpl() const {
+  switch (type()) {
+  case INT64:    return to<T>(*get_nothrow<int64_t>());
+  case DOUBLE:   return to<T>(*get_nothrow<double>());
+  case BOOL:     return to<T>(*get_nothrow<bool>());
+  case STRING:   return to<T>(*get_nothrow<fbstring>());
+  default:
+    throw TypeError("int/double/bool/string", type());
+  }
+}
+
+template<class T>
+typename std::enable_if<
+  std::is_same<T, byte_string>::value, T>::type
+dynamic::asImpl() const {
+  switch (type()) {
+  case INT64:
+  case DOUBLE:
+  case BOOL:
+  case STRING: {
+    auto s = asImpl<fbstring>(); // avoid to implement so many to<byte_string>
+    return byte_string(s.begin(), s.end());
+  }
+  case DATA:     return *get_nothrow<byte_string>();
+  default:
+    throw TypeError("int/double/bool/string/data", type());
+  }
+}
+
+#else
 
 template<class T>
 T dynamic::asImpl() const {
@@ -608,6 +710,8 @@ T dynamic::asImpl() const {
     throw TypeError("int/double/bool/string", type());
   }
 }
+
+#endif
 
 // Return a T* to our type, or null if we're not that type.
 template<class T>
@@ -654,6 +758,11 @@ template<> struct dynamic::GetAddrImpl<double> {
 template<> struct dynamic::GetAddrImpl<fbstring> {
   static fbstring* get(Data& d) noexcept { return &d.string; }
 };
+#if CORAL_DYNAMIC_EXTEND_DATA
+template<> struct dynamic::GetAddrImpl<byte_string> {
+  static byte_string* get(Data& d) noexcept { return &d.data; }
+};
+#endif
 template<> struct dynamic::GetAddrImpl<dynamic::ObjectImpl> {
   static_assert(sizeof(ObjectImpl) <= sizeof(Data::objectBuffer),
     "In your implementation, std::unordered_map<> apparently takes different"
@@ -740,6 +849,9 @@ class FormatValue<dynamic> {
       FormatValue<int64_t>(val_.asInt()).format(arg, cb);
       break;
     case dynamic::STRING:
+#if CORAL_DYNAMIC_EXTEND_DATA
+    case dynamic::DATA:
+#endif
       FormatValue<fbstring>(val_.asString()).format(arg, cb);
       break;
     case dynamic::DOUBLE:
@@ -773,6 +885,9 @@ class FormatValue<detail::DefaultValueWrapper<dynamic, V>> {
     case dynamic::BOOL:
     case dynamic::INT64:
     case dynamic::STRING:
+#if CORAL_DYNAMIC_EXTEND_DATA
+    case dynamic::DATA:
+#endif
     case dynamic::DOUBLE:
       FormatValue<dynamic>(c).format(arg, cb);
       break;

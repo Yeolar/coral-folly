@@ -100,6 +100,10 @@
 #cmakedefine CORAL_GFLAGS_NAMESPACE @CORAL_GFLAGS_NAMESPACE@
 #cmakedefine CORAL_UNUSUAL_GFLAGS_NAMESPACE 1
 
+/* dynamic */
+
+#cmakedefine CORAL_DYNAMIC_EXTEND_DATA 1
+
 /* logging */
 
 #cmakedefine CORAL_USE_GLOG 1

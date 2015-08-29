@@ -21,13 +21,16 @@ namespace coral {
 
 //////////////////////////////////////////////////////////////////////
 
-#define DEF_TYPE(T, str, typen)                                 \
+#define DEF_TYPE(T, str, typen)                                   \
   template<> char const dynamic::TypeInfo<T>::name[] = str;       \
   template<> dynamic::Type const dynamic::TypeInfo<T>::type = typen
 
 DEF_TYPE(void*,               "null",    dynamic::NULLT);
 DEF_TYPE(bool,                "boolean", dynamic::BOOL);
 DEF_TYPE(fbstring,            "string",  dynamic::STRING);
+#if CORAL_DYNAMIC_EXTEND_DATA
+DEF_TYPE(byte_string,         "data",    dynamic::DATA);
+#endif
 DEF_TYPE(dynamic::Array,      "array",   dynamic::ARRAY);
 DEF_TYPE(double,              "double",  dynamic::DOUBLE);
 DEF_TYPE(int64_t,             "int64",   dynamic::INT64);
@@ -220,6 +223,130 @@ dynamic const& dynamic::at(dynamic const& idx) const& {
   }
 }
 
+bool dynamic::get(const dynamic& k, dynamic& v) const {
+  if (auto* pobject = get_nothrow<ObjectImpl>()) {
+    auto it = pobject->find(k);
+    if (it != pobject->end()) {
+      v = it->second;
+      return true;
+    }
+  }
+  return false;
+}
+
+bool dynamic::get(const dynamic& k, fbstring& v) const {
+  dynamic d = nullptr;
+  if (get(k, d) && d.isString()) {
+    v = d.getString();
+    return true;
+  }
+  return false;
+}
+
+#if CORAL_DYNAMIC_EXTEND_DATA
+bool dynamic::get(const dynamic& k, byte_string& v) const {
+  dynamic d = nullptr;
+  if (get(k, d) && d.isData()) {
+    v = d.getData();
+    return true;
+  }
+  return false;
+}
+#endif
+
+bool dynamic::get(const dynamic& k, double& v) const {
+  dynamic d = nullptr;
+  if (get(k, d) && d.isDouble()) {
+    v = d.getDouble();
+    return true;
+  }
+  return false;
+}
+
+bool dynamic::get(const dynamic& k, int64_t& v) const {
+  dynamic d = nullptr;
+  if (get(k, d) && d.isInt()) {
+    v = d.getInt();
+    return true;
+  }
+  return false;
+}
+
+bool dynamic::get(const dynamic& k, bool& v) const {
+  dynamic d = nullptr;
+  if (get(k, d) && d.isBool()) {
+    v = d.getBool();
+    return true;
+  }
+  return false;
+}
+
+bool dynamic::getByKeyPath(const StringPiece& kpath, dynamic& v) const {
+  std::vector<fbstring> ks;
+  split('.', kpath, ks);
+
+  const dynamic* d = this;
+  for (auto& k : ks) {
+    if (!d->isObject()) {
+      return false;
+    }
+    auto it = d->find(k);
+    if (it == d->items().end()) {
+      return false;
+    }
+    d = &it->second;
+  }
+  v = *d;
+  return true;
+}
+
+bool dynamic::getByKeyPath(const StringPiece& kpath, fbstring& v) const {
+  dynamic d = nullptr;
+  if (getByKeyPath(kpath, d) && d.isString()) {
+    v = d.getString();
+    return true;
+  }
+  return false;
+}
+
+#if CORAL_DYNAMIC_EXTEND_DATA
+bool dynamic::getByKeyPath(const StringPiece& kpath, byte_string& v) const {
+  dynamic d = nullptr;
+  if (getByKeyPath(kpath, d) && d.isData()) {
+    v = d.getData();
+    return true;
+  }
+  return false;
+}
+#endif
+
+bool dynamic::getByKeyPath(const StringPiece& kpath, double& v) const {
+  dynamic d = nullptr;
+  if (getByKeyPath(kpath, d) && d.isDouble()) {
+    v = d.getDouble();
+    return true;
+  }
+  return false;
+}
+
+bool dynamic::getByKeyPath(const StringPiece& kpath, int64_t& v) const {
+  dynamic d = nullptr;
+  if (getByKeyPath(kpath, d) && d.isInt()) {
+    v = d.getInt();
+    return true;
+  }
+  return false;
+}
+
+bool dynamic::getByKeyPath(const StringPiece& kpath, bool& v) const {
+  dynamic d = nullptr;
+  if (getByKeyPath(kpath, d) && d.isBool()) {
+    v = d.getBool();
+    return true;
+  }
+  return false;
+}
+
 std::size_t dynamic::size() const {
   if (auto* ar = get_nothrow<Array>()) {
     return ar->size();
@@ -230,6 +357,11 @@ std::size_t dynamic::size() const {
   if (auto* str = get_nothrow<fbstring>()) {
     return str->size();
   }
+#if CORAL_DYNAMIC_EXTEND_DATA
+  if (auto* str = get_nothrow<byte_string>()) {
+    return str->size();
+  }
+#endif
   throw TypeError("array/object", type());
 }
 
@@ -255,6 +387,10 @@ std::size_t dynamic::hash() const {
     return std::hash<bool>()(asBool());
   case STRING:
     return std::hash<fbstring>()(asString());
+#if CORAL_DYNAMIC_EXTEND_DATA
+  case DATA:
+    return std::hash<byte_string>()(asData());
+#endif
   default:
     CHECK(0); abort();
   }

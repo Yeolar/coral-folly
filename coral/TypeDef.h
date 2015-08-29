@@ -22,6 +22,8 @@
 #include <set>
 #include <map>
 
+#include <coral/Hash.h>
+
 namespace coral {
 
 typedef std::basic_string<unsigned char> byte_string;
@@ -35,6 +37,15 @@ std::ostream& operator<<(std::ostream& os, const StringSet& set);
 std::ostream& operator<<(std::ostream& os, const StringMap& map);
 
 } // namespace coral
+
+namespace std {
+  template <>
+  struct hash<coral::byte_string> {
+    size_t operator()(const coral::byte_string& s) const {
+      return coral::hash::fnv32_buf(s.data(), s.size());
+    }
+  };
+} // namespace std
 
 #endif /* CORAL_TYPE_DEF_H_ */
 
