@@ -100,6 +100,63 @@ typename Map::mapped_type* get_ptr(
   return (pos != map.end() ? &pos->second : nullptr);
 }
 
+template <class Container, class Map>
+typename std::enable_if<
+  std::is_same<
+    typename Container::value_type,
+    typename Map::key_type>::value,
+  Container>::type
+get_keys(const Map& map) {
+  Container container;
+  for (const auto& kv : map) {
+    container.insert(container.end(), kv.first);
+  }
+  return container;
+}
+
+template <class Container, class MapIt>
+typename std::enable_if<
+  std::is_same<
+    typename Container::value_type,
+    typename MapIt::value_type::first_type>::value,
+  Container>::type
+get_keys(MapIt first, MapIt last) {
+  Container container;
+  for (; first != last; ++first) {
+    container.insert(container.end(), first->first);
+  }
+  return container;
+}
+
+template <class Container, class Map>
+typename std::enable_if<
+  std::is_same<
+    typename Container::value_type,
+    typename Map::mapped_type>::value,
+  Container>::type
+get_values(const Map& map) {
+  Container container;
+  for (const auto& kv : map) {
+    container.insert(container.end(), kv.second);
+  }
+  return container;
+}
+
+template <class Container, class MapIt>
+typename std::enable_if<
+  std::is_same<
+    typename Container::value_type,
+    typename MapIt::value_type::second_type>::value,
+  Container>::type
+get_values(MapIt first, MapIt last) {
+  Container container;
+  for (; first != last; ++first) {
+    container.insert(container.end(), first->second);
+  }
+  return container;
+}
+
 }  // namespace coral
 
 #endif /* CORAL_MAPUTIL_H_ */
+

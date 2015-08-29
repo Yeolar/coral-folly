@@ -49,6 +49,7 @@ install(FILES
     DynamicConverter.h
     dynamic.h
     dynamic-inl.h
+    Enum.h
     Exception.h
     FBString.h
     FBVector.h
