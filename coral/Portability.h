@@ -322,6 +322,11 @@ using namespace CORAL_GFLAGS_NAMESPACE;
 #include <TargetConditionals.h>
 #endif
 
+// for Mac
+#ifdef __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 // MacOS doesn't have malloc_usable_size()
 #if defined(__APPLE__) && !defined(CORAL_HAVE_MALLOC_USABLE_SIZE)
 inline size_t malloc_usable_size(void* ptr) {

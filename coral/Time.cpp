@@ -44,7 +44,7 @@ Time::Time(const char* s) {
 }
 
 Time Time::now() {
-#if __APPLE__
+#ifdef __APPLE__
   return CFAbsoluteTimeGetCurrent();
 #else
   struct timeval tv;
