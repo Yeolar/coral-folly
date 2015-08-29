@@ -43,10 +43,10 @@ find_package(GFlags REQUIRED)
 set(CORAL_HAVE_LIBGFLAGS ${GFLAGS_FOUND})
 find_package(Glog REQUIRED)
 set(CORAL_HAVE_LIBGLOG ${GLOG_FOUND})
-find_package(GTest REQUIRED)
-set(CORAL_HAVE_LIBGTEST ${GTEST_FOUND})
 
 # Optional packages
+find_package(GTest)
+set(CORAL_HAVE_LIBGTEST ${GTEST_FOUND})
 find_package(JeMalloc)
 set(CORAL_HAVE_LIBJEMALLOC ${JEMALLOC_FOUND})
 find_package(LibEvent)
