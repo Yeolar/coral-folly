@@ -30,8 +30,8 @@
 #include <mutex>
 #include <atomic>
 
-#include <glog/logging.h>
 #include <coral/detail/Sleeper.h>
+#include <coral/Logging.h>
 #include <coral/Portability.h>
 
 #if !CORAL_X64 && !CORAL_A64

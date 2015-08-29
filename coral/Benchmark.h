@@ -18,14 +18,14 @@
 #ifndef CORAL_BENCHMARK_H_
 #define CORAL_BENCHMARK_H_
 
-#include <coral/ScopeGuard.h>
+#include <coral/Logging.h>
 #include <coral/Portability.h>
 #include <coral/Preprocessor.h> // for CR_ANONYMOUS_VARIABLE
+#include <coral/ScopeGuard.h>
 #include <cassert>
 #include <ctime>
 #include <boost/function_types/function_arity.hpp>
 #include <functional>
-#include <glog/logging.h>
 #include <gflags/gflags.h>
 #include <limits>
 #include <type_traits>

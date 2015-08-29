@@ -22,8 +22,8 @@
 #include <coral/dynamic.h>
 #include <coral/json.h>
 #include <coral/small_vector.h>
+#include <coral/Logging.h>
 
-#include <glog/logging.h>
 #include <gflags/gflags.h>
 #include <gtest/gtest.h>
 

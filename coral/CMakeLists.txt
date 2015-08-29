@@ -11,6 +11,7 @@ set(CORAL_BASE_SRCS
     FileUtil.cpp
     Format.cpp
     json.cpp
+    Logging.cpp
     Malloc.cpp
     Random.cpp
     Range.cpp
@@ -18,6 +19,7 @@ set(CORAL_BASE_SRCS
     SpookyHashV2.cpp
     StringBase.cpp
     String.cpp
+    Time.cpp
     TypeDef.cpp
     Unicode.cpp
     build/EscapeTables.cpp
@@ -56,6 +58,7 @@ install(FILES
     FBVector.h
     File.h
     FileUtil.h
+    FixedStream.h
     Foreach.h
     FormatArg.h
     Format.h
@@ -64,6 +67,7 @@ install(FILES
     Hash.h
     json.h
     Likely.h
+    Logging.h
     Malloc.h
     MapUtil.h
     Memory.h
@@ -86,6 +90,7 @@ install(FILES
     String-inl.h
     Synchronized.h
     ThreadLocal.h
+    Time.h
     Traits.h
     TypeDef.h
     Unicode.h

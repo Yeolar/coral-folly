@@ -16,13 +16,11 @@
  */
 
 #include <coral/Format.h>
-
-#include <glog/logging.h>
-
 #include <coral/FBVector.h>
 #include <coral/Benchmark.h>
 #include <coral/dynamic.h>
 #include <coral/json.h>
+#include <coral/Logging.h>
 
 using namespace coral;
 

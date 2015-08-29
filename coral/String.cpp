@@ -18,6 +18,7 @@
 #include <coral/String.h>
 
 #include <coral/Format.h>
+#include <coral/Logging.h>
 #include <coral/ScopeGuard.h>
 
 #include <cerrno>
@@ -27,7 +28,6 @@
 #include <iterator>
 #include <cctype>
 #include <string.h>
-#include <glog/logging.h>
 
 namespace coral {
 

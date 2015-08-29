@@ -16,6 +16,7 @@
  */
 
 #include <coral/Optional.h>
+#include <coral/Logging.h>
 
 #include <memory>
 #include <vector>
@@ -23,7 +24,6 @@
 #include <iomanip>
 #include <string>
 
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 #include <boost/optional.hpp>
 

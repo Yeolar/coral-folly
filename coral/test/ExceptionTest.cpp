@@ -16,11 +16,12 @@
  */
 
 #include <coral/Exception.h>
+#include <coral/Logging.h>
 
 #include <cstdio>
 #include <memory>
 
-#include <glog/logging.h>
+#include <gflags/gflags.h>
 #include <gtest/gtest.h>
 
 namespace coral { namespace test {

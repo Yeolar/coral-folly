@@ -20,10 +20,10 @@
 #include <mutex>
 
 #include <boost/thread/locks.hpp>
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 
 #include <coral/Benchmark.h>
+#include <coral/Logging.h>
 #include <coral/String.h>
 #include <coral/Subprocess.h>
 #include <coral/experimental/io/FsUtil.h>

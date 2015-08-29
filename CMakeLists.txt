@@ -60,10 +60,10 @@ find_package(double-conversion REQUIRED)
 set(CORAL_HAVE_LIBDOUBLE_CONVERSION ${double-conversion_FOUND})
 find_package(GFlags REQUIRED)
 set(CORAL_HAVE_LIBGFLAGS ${GFLAGS_FOUND})
-find_package(Glog REQUIRED)
-set(CORAL_HAVE_LIBGLOG ${GLOG_FOUND})
 
 # Optional packages
+find_package(Glog)
+set(CORAL_HAVE_LIBGLOG ${GLOG_FOUND})
 find_package(GTest)
 set(CORAL_HAVE_LIBGTEST ${GTEST_FOUND})
 find_package(JeMalloc)
@@ -83,6 +83,10 @@ set(CORAL_HAVE_LIBZ ${ZLIB_FOUND})
 
 # Option
 option(BUILD_SHARED_LIBS "build as shared libs" ON)
+
+option(CORAL_USE_GLOG "Logging: use glog instead of builtin logging" OFF)
+option(CORAL_LOG_USE_ABORT "Logging: use abort for fatal" OFF)
+option(CORAL_LOG_TIMESTAMP "Logging: log append timestamp" ON)
 
 # Setup environment
 set(CMAKE_BUILD_TYPE Debug)

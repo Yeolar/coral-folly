@@ -25,10 +25,9 @@
 #include <string>
 #include <vector>
 
-#include <glog/logging.h>
-
 #include <coral/Foreach.h>
 #include <coral/Exception.h>
+#include <coral/Logging.h>
 #include <coral/Malloc.h>
 
 // In general, emutls cleanup is not guaranteed to play nice with the way

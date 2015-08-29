@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <sys/time.h>
 #include <coral/Conv.h>
-#include <glog/logging.h>
+#include <coral/Logging.h>
 
 namespace coral {
 

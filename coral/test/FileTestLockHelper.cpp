@@ -16,9 +16,9 @@
  */
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
 
 #include <coral/File.h>
+#include <coral/Logging.h>
 
 DEFINE_bool(s, false, "get shared lock");
 DEFINE_bool(x, false, "get exclusive lock");

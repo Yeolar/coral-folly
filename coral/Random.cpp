@@ -24,9 +24,9 @@
 #include <random>
 #include <array>
 
-#include <glog/logging.h>
 #include <coral/File.h>
 #include <coral/FileUtil.h>
+#include <coral/Logging.h>
 
 #ifdef _MSC_VER
 # include <wincrypt.h>

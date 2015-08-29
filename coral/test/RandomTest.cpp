@@ -19,8 +19,8 @@
 #include <coral/Range.h>
 #include <coral/Benchmark.h>
 #include <coral/Foreach.h>
+#include <coral/Logging.h>
 
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 
 #include <algorithm>

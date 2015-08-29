@@ -17,9 +17,9 @@
 
 #include <coral/Memory.h>
 #include <coral/Arena.h>
+#include <coral/Logging.h>
 #include <coral/String.h>
 
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 
 #include <type_traits>

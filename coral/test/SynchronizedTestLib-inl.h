@@ -25,8 +25,8 @@
 #include <functional>
 #include <thread>
 #include <vector>
-#include <glog/logging.h>
 #include <coral/Foreach.h>
+#include <coral/Logging.h>
 #include <coral/Random.h>
 #include <coral/Synchronized.h>
 

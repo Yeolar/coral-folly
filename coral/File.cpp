@@ -24,11 +24,10 @@
 #include <coral/Exception.h>
 #include <coral/FileUtil.h>
 #include <coral/Format.h>
+#include <coral/Logging.h>
 #include <coral/ScopeGuard.h>
 
 #include <system_error>
-
-#include <glog/logging.h>
 
 namespace coral {
 

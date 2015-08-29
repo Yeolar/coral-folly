@@ -17,10 +17,10 @@
 
 #include <coral/ScopeGuard.h>
 #include <coral/Portability.h>
+#include <coral/Logging.h>
 
 #include <gflags/gflags.h>
 #include <gtest/gtest.h>
-#include <glog/logging.h>
 
 #include <functional>
 #include <stdexcept>

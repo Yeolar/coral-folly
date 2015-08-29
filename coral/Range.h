@@ -23,6 +23,7 @@
 
 #include <coral/Portability.h>
 #include <coral/FBString.h>
+#include <coral/Logging.h>
 #include <coral/NumericRange.h>
 #include <coral/SpookyHashV2.h>
 #include <coral/TypeDef.h>
@@ -31,7 +32,6 @@
 #include <boost/operators.hpp>
 #include <climits>
 #include <cstring>
-#include <glog/logging.h>
 #include <iosfwd>
 #include <stdexcept>
 #include <string>

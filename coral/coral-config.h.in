@@ -1,8 +1,12 @@
 #ifndef CORAL_CONFIG_H_
 #define CORAL_CONFIG_H_
 
+/* meta */
+
 #define CORAL_PACKAGE "@PROJECT_NAME@"
 #define CORAL_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_MICRO@"
+
+/* library */
 
 #cmakedefine CORAL_HAVE_BOOST
 #cmakedefine CORAL_HAVE_BOOST_CONTEXT
@@ -24,6 +28,8 @@
 #cmakedefine CORAL_HAVE_LIBSNAPPY 1
 #cmakedefine CORAL_HAVE_LIBSSL 1
 #cmakedefine CORAL_HAVE_LIBZ 1
+
+/* header */
 
 #cmakedefine CORAL_HAVE_BYTESWAP_H 1
 #cmakedefine CORAL_HAVE_DLFCN_H 1
@@ -47,9 +53,13 @@
 #cmakedefine CORAL_HAVE_SYS_TIME_H 1
 #cmakedefine CORAL_HAVE_SYS_TYPES_H 1
 
+/* type */
+
 #cmakedefine CORAL_HAVE_INT128_T 1
 #cmakedefine CORAL_HAVE_PTHREAD_SPINLOCK_T 1
 #cmakedefine CORAL_HAVE_PTRDIFF_T 1
+
+/* function */
 
 #cmakedefine CORAL_HAVE_GETDELIM 1
 #cmakedefine CORAL_HAVE_GETTIMEOFDAY 1
@@ -70,6 +80,8 @@
 #cmakedefine CORAL_HAVE_SCHED_H 1
 #cmakedefine CORAL_HAVE_SCHED_YIELD 1
 
+/* compile tests for keyword, lib, function, ... */
+
 #cmakedefine CORAL_FINAL final
 #cmakedefine CORAL_OVERRIDE override
 
@@ -83,8 +95,16 @@
 #cmakedefine CORAL_HAVE_WEAK_SYMBOLS 1
 #cmakedefine CORAL_HAVE_XSI_STRERROR_R 1
 
+/* gflags */
+
 #cmakedefine CORAL_GFLAGS_NAMESPACE @CORAL_GFLAGS_NAMESPACE@
 #cmakedefine CORAL_UNUSUAL_GFLAGS_NAMESPACE 1
+
+/* logging */
+
+#cmakedefine CORAL_USE_GLOG 1
+#cmakedefine CORAL_LOG_USE_ABORT 1
+#cmakedefine CORAL_LOG_TIMESTAMP 1
 
 #endif /* CORAL_CONFIG_H_ */
 

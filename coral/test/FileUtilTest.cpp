@@ -20,11 +20,11 @@
 
 #include <deque>
 
-#include <glog/logging.h>
 #include <gflags/gflags.h>
 #include <gtest/gtest.h>
 
 #include <coral/Benchmark.h>
+#include <coral/Logging.h>
 #include <coral/Range.h>
 #include <coral/String.h>
 
