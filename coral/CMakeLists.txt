@@ -40,6 +40,7 @@ install(FILES
     ApplyTuple.h
     Benchmark.h
     Conv.h
+    Conv-ext.h
     coral-config.h
     CPortability.h
     CpuId.h
@@ -91,6 +92,10 @@ install(FILES
     Unicode.h
     Utf8StringPiece.h
     DESTINATION include/coral
+)
+install(FILES
+    apple/CFTypeWrapper.h
+    DESTINATION include/coral/apple
 )
 install(FILES
     detail/Clock.h

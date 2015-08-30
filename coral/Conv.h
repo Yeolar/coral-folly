@@ -727,6 +727,15 @@ estimateSpaceNeeded(const Src&) {
   return sizeof(Src) + 1; // dumbest best effort ever?
 }
 
+} // namespace coral
+
+// Extend some more toAppend function for more types conversion.
+#include <coral/Conv-ext.h>
+
+///////////////////////////////////////////////////////////////////////////
+
+namespace coral {
+
 namespace detail {
 
 inline size_t estimateSpaceToReserve(size_t sofar) {
