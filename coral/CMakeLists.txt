@@ -30,11 +30,7 @@ set(CORAL_BASE_SRCS
     detail/FunctionalExcept.cpp
     detail/MallocImpl.cpp
 )
-add_library(coral
-    ${CORAL_BASE_SRCS}
-)
-#target_link_libraries(coral
-#)
+add_library(coral_base ${CORAL_BASE_SRCS})
 
 
 install(FILES
@@ -105,16 +101,5 @@ install(FILES
     detail/ThreadLocalDetail.h
     detail/UncaughtExceptionCounter.h
     DESTINATION include/coral/detail
-)
-install(FILES
-    platform/mac/CFTypeWrapper.h
-    DESTINATION include/coral/platform/mac
-)
-install(TARGETS
-    coral
-    DESTINATION lib
-    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-                GROUP_READ GROUP_EXECUTE
-                WORLD_READ WORLD_EXECUTE
 )
 

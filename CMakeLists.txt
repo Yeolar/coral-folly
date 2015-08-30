@@ -84,7 +84,7 @@ find_package(ZLIB)
 set(CORAL_HAVE_LIBZ ${ZLIB_FOUND})
 
 # Options
-include(CMakeOptions.txt)
+include(CMakeOptions.cmake)
 
 # Setup environment
 set(CMAKE_BUILD_TYPE Debug)
@@ -273,13 +273,42 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/coral/coral-config.h"
 )
 
+# Uninstall
+configure_file(
+    "${PROJECT_SOURCE_DIR}/cmake-scripts/cmake_uninstall.cmake.in"
+    "${PROJECT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY
+)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND}
+        -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+)
+
 include_directories(${PROJECT_SOURCE_DIR})
 
 # Work on all sub directories
 add_subdirectory(coral)
+add_subdirectory(coral/io)
+add_subdirectory(coral/platform)
+
+add_library(coral)
+target_link_libraries(coral
+    coral_base
+    coral_io
+)
+
+install(TARGETS
+    coral
+    DESTINATION lib
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                GROUP_READ GROUP_EXECUTE
+                WORLD_READ WORLD_EXECUTE
+)
 
 if(GTEST_FOUND)
     enable_testing()
     add_subdirectory(coral/test)
+    add_subdirectory(coral/io/test)
 endif()
 

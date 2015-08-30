@@ -24,6 +24,7 @@
 #include <map>
 #include <stdexcept>
 #include <type_traits>
+#include <boost/filesystem.hpp>
 
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -217,6 +218,37 @@ private:
 template <class K, class V>
 CFDictionaryWrapper wrapToCFObject(const std::map<K, V>& d) {
   return CFDictionaryWrapper(d);
+}
+
+class CFURLWrapper {
+public:
+  CFURLWrapper(const boost::filesystem::path& p) {
+    boost::filesystem::path::string_type s(p.string());
+    CFURLRef cfurl =
+    CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault,
+                                            (UInt8*)s.data(), s.size(),
+                                            boost::filesystem::is_directory(p));
+    cfurl_.reset(cfurl, CFRelease);
+  }
+
+  CFURLRef get() const {
+    return cfurl_.get();
+  }
+
+  operator CFURLRef() const {
+    return cfurl_.get();
+  }
+
+  explicit operator bool() const {
+    return !!cfurl_.get();
+  }
+
+private:
+  std::shared_ptr<const __CFURL> cfurl_;
+};
+
+inline CFURLWrapper wrapToCFObject(const boost::filesystem::path& p) {
+  return CFURLWrapper(p);
 }
 
 } // namespace coral
