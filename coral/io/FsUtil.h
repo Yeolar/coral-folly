@@ -18,16 +18,58 @@
 #ifndef CORAL_IO_FSUTIL_H_
 #define CORAL_IO_FSUTIL_H_
 
+#include <vector>
+#include <pwd.h>
 #include <boost/filesystem.hpp>
+
+#include <coral/Range.h>
 
 namespace coral {
 namespace fs {
+
+/**
+ * Shell escape.
+ *
+ * Rules:
+ *   \n  ->  "'\n'"
+ *   [^A-Za-z0-9_\\-.,:/@\x7F-\xFF]  ->  "\\C"
+ */
+template <class String>
+void shellEscape(StringPiece str, String& out);
+
+/**
+ * Similar to shellEscape above, but returns the escaped string.
+ */
+template <class String>
+String shellEscape(StringPiece str) {
+  String out;
+  shellEscape(str, out);
+  return out;
+}
+
+/**
+ * Shell unescape and split into words.
+ */
+template<class String>
+void shellSplit(const String& input, std::vector<String>& out);
+
+///////////////////////////////////////////////////////////////////////////
 
 // Functions defined in this file are meant to extend the
 // boost::filesystem library; functions will be named according to boost's
 // naming conventions instead of ours.  For convenience, import the
 // boost::filesystem namespace into coral::fs.
 using namespace ::boost::filesystem;
+
+/**
+ * Different from path.normalize(), handle some special case.
+ *
+ * ./a/b/.  -> a/b
+ * /..      -> ""
+ * /../a    -> /a
+ * //a/b    -> /a/b     path.normalize() recognize head "//" as protocol
+ */
+path normalize(const path& p);
 
 /**
  * Check whether "path" starts with "prefix".
@@ -67,7 +109,35 @@ path canonical_parent(const path& p, const path& basePath = current_path());
  */
 path executable_path();
 
+/**
+ * Get device.
+ */
+dev_t device(const path& p);
+
+/**
+ * passwd entry get by getpwuid(getuid()).
+ */
+const passwd* passwd_entry();
+
+/**
+ * User home path.
+ */
+path home_path();
+
+/**
+ * If with home path prefix, return path relative to it: ~/... ,
+ * else return p.
+ */
+path home_relative_path(const path& p);
+
+/**
+ * Returns relative path to base.
+ */
+path relative_path(const path& p, const path& base);
+
 }  // namespace fs
 }  // namespace coral
+
+#include <coral/io/FsUtil-inl.h>
 
 #endif /* CORAL_IO_FSUTIL_H_ */
