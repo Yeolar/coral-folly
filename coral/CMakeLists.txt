@@ -4,6 +4,7 @@
 
 set(CORAL_BASE_SRCS
     Benchmark.cpp
+    Binascii.cpp
     Conv.cpp
     Demangle.cpp
     dynamic.cpp
@@ -39,6 +40,8 @@ add_library(coral
 install(FILES
     ApplyTuple.h
     Benchmark.h
+    Binascii.h
+    Binascii-inl.h
     Conv.h
     Conv-ext.h
     coral-config.h
