@@ -94,7 +94,7 @@ option(CORAL_LOG_TIMESTAMP "Logging: log append timestamp" ON)
 
 # Setup environment
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 add_definitions(
     -std=c++11
@@ -113,7 +113,7 @@ endif()
 
 if(APPLE)
     find_library(MAC_FRAMEWORKS NAMES CoreFoundation)
-    link_libraries(${MAC_FRAMEWORKS})
+    link_libraries(icucore ${MAC_FRAMEWORKS})
 endif()
 
 # Check and setup configurations
