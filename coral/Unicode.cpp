@@ -20,7 +20,10 @@
 #include <coral/Utf8StringPiece.h>
 
 //#define U_HIDE_DRAFT_API 1
-//#define U_DISABLE_RENAMING 1
+
+#ifdef __APPLE__
+#define U_DISABLE_RENAMING 1
+#endif
 
 #include <unicode/uchar.h>
 #include <unicode/unistr.h>

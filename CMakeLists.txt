@@ -292,7 +292,7 @@ add_subdirectory(coral)
 add_subdirectory(coral/io)
 add_subdirectory(coral/platform)
 
-add_library(coral)
+add_library(coral "")
 target_link_libraries(coral
     coral_base
     coral_io
