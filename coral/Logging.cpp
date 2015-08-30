@@ -48,8 +48,9 @@ int vscnprintf(char* buf, size_t size, const char* format, va_list args) {
   return (int)size - 1;
 }
 
-int scnprintf(char* buf, size_t size, const char* format, ...)
-CORAL_PRINTF_FORMAT_ATTR(3, 4);
+int scnprintf(char* buf, size_t size,
+              CORAL_PRINTF_FORMAT const char* format, ...)
+  CORAL_PRINTF_FORMAT_ATTR(3, 4);
 
 int scnprintf(char* buf, size_t size, const char* format, ...) {
   va_list ap;

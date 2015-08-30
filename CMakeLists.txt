@@ -60,6 +60,8 @@ find_package(double-conversion REQUIRED)
 set(CORAL_HAVE_LIBDOUBLE_CONVERSION ${double-conversion_FOUND})
 find_package(GFlags REQUIRED)
 set(CORAL_HAVE_LIBGFLAGS ${GFLAGS_FOUND})
+find_package(ICU REQUIRED)
+set(CORAL_HAVE_LIBICU ${ICU_FOUND})
 
 # Optional packages
 find_package(Glog)
@@ -92,7 +94,7 @@ option(CORAL_LOG_TIMESTAMP "Logging: log append timestamp" ON)
 
 # Setup environment
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_definitions(
     -std=c++11

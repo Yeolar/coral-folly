@@ -22,6 +22,7 @@ set(CORAL_BASE_SRCS
     Time.cpp
     TypeDef.cpp
     Unicode.cpp
+    Utf8StringPiece.cpp
     build/EscapeTables.cpp
     build/FormatTables.cpp
     detail/Clock.cpp
@@ -88,6 +89,7 @@ install(FILES
     Traits.h
     TypeDef.h
     Unicode.h
+    Utf8StringPiece.h
     DESTINATION include/coral
 )
 install(FILES

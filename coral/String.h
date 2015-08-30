@@ -40,6 +40,8 @@
 #include <coral/Portability.h>
 #include <coral/Range.h>
 #include <coral/ScopeGuard.h>
+#include <coral/Unicode.h>
+#include <coral/Utf8StringPiece.h>
 
 // Compatibility function, to make sure toStdString(s) can be called
 // to convert a std::string or fbstring variable s into type std::string
@@ -62,6 +64,19 @@ inline
 std::string&& toStdString(std::string&& s) {
   return std::move(s);
 }
+
+/**
+ * Case insensitive string less.
+ */
+struct StrCaseLess {
+  bool operator()(const coral::fbstring& x, const coral::fbstring& y) const {
+    return strcasecmp(x.c_str(), y.c_str()) < 0;
+  }
+
+  bool operator()(const std::string& x, const std::string& y) const {
+    return strcasecmp(x.c_str(), y.c_str()) < 0;
+  }
+};
 
 /**
  * C-Escape a string, making it suitable for representation as a C string
@@ -276,9 +291,10 @@ bool unhexlify(const InputString& input, OutputString& output);
  *
  * Current types are:
  *   PRETTY_TIME         - s, ms, us, ns, etc.
- *   PRETTY_BYTES_METRIC - kB, MB, GB, etc (goes up by 10^3 = 1000 each time)
- *   PRETTY_BYTES        - kB, MB, GB, etc (goes up by 2^10 = 1024 each time)
- *   PRETTY_BYTES_IEC    - KiB, MiB, GiB, etc
+ *   PRETTY_BYTES_METRIC - B, kB, MB, GB, etc (goes up by 10^3 = 1000 each time)
+ *   PRETTY_BYTES        - B, kB, MB, GB, etc (goes up by 2^10 = 1024 each time)
+ *   PRETTY_BYTES_IEC    - B, KiB, MiB, GiB, etc
+ *   PRETTY_BYTES_IEC_F  - byte(s), KiB, MiB, GiB, etc.  Fix to 1 decimal
  *   PRETTY_UNITS_METRIC - k, M, G, etc (goes up by 10^3 = 1000 each time)
  *   PRETTY_UNITS_BINARY - k, M, G, etc (goes up by 2^10 = 1024 each time)
  *   PRETTY_UNITS_BINARY_IEC - Ki, Mi, Gi, etc
@@ -294,6 +310,8 @@ enum PrettyType {
   PRETTY_BYTES = PRETTY_BYTES_BINARY,
   PRETTY_BYTES_BINARY_IEC,
   PRETTY_BYTES_IEC = PRETTY_BYTES_BINARY_IEC,
+  PRETTY_BYTES_BINARY_IEC_F,
+  PRETTY_BYTES_IEC_F = PRETTY_BYTES_BINARY_IEC_F,
 
   PRETTY_UNITS_METRIC,
   PRETTY_UNITS_BINARY,
@@ -498,6 +516,32 @@ split(const Delim& delimiter,
       OutputTypes&... outTail);
 
 /*
+ * Split a string into lines by '\n', '\n' IS included.
+ */
+template<class String, class OutputType>
+void splitLines(const String& input, std::vector<OutputType>& out);
+
+template<class String, class OutputType>
+void splitLines(const String& input, coral::fbvector<OutputType>& out);
+
+/*
+ * Split a string into lines using soft break mode.
+ */
+template<class String, class OutputType>
+void splitSoftBreakLines(const String& input,
+                         std::vector<OutputType>& out,
+                         size_t width,
+                         size_t tabSize,
+                         size_t prefixSize = 0);
+
+template<class String, class OutputType>
+void splitSoftBreakLines(const String& input,
+                         coral::fbvector<OutputType>& out,
+                         size_t width,
+                         size_t tabSize,
+                         size_t prefixSize = 0);
+
+/*
  * Join list of tokens.
  *
  * Stores a string representation of tokens in the same order with
@@ -581,6 +625,11 @@ inline StringPiece skipWhitespace(StringPiece sp) {
 }
 
 /**
+ * Returns a subpiece with all trim chars removed from the front and end of @sp.
+ */
+StringPiece trim(StringPiece sp, StringPiece chars);
+
+/**
  * Fast, in-place lowercasing of ASCII alphabetic characters in strings.
  * Leaves all other characters unchanged, including those with the 0x80
  * bit set.
@@ -592,6 +641,20 @@ void toLowerAscii(char* str, size_t length);
 inline void toLowerAscii(MutableStringPiece str) {
   toLowerAscii(str.begin(), str.size());
 }
+
+enum class LineEnding {
+  NONE,
+  LF,
+  CR,
+  CRLF,
+  MIXED,
+};
+
+LineEnding estimateLineEnding(StringPiece sp);
+
+template <class String>
+typename std::enable_if<IsSomeString<String>::value>::type
+convertToUnixStyleLineEnding(String& str);
 
 } // namespace coral
 

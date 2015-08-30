@@ -177,6 +177,15 @@ const PrettySuffix kPrettyBytesBinaryIECSuffixes[] = {
   { 0, 0 },
 };
 
+const PrettySuffix kPrettyBytesBinaryIECFixSuffixes[] = {
+  { "TiB", int64_t(1) << 40 },
+  { "GiB", int64_t(1) << 30 },
+  { "MiB", int64_t(1) << 20 },
+  { "KiB", int64_t(1) << 10 },
+  { "byte", 0L },
+  { 0, 0 },
+};
+
 const PrettySuffix kPrettyUnitsMetricSuffixes[] = {
   { "tril", 1e12L },
   { "bil",  1e9L },
@@ -234,6 +243,7 @@ const PrettySuffix* const kPrettySuffixes[PRETTY_NUM_TYPES] = {
   kPrettyBytesMetricSuffixes,
   kPrettyBytesBinarySuffixes,
   kPrettyBytesBinaryIECSuffixes,
+  kPrettyBytesBinaryIECFixSuffixes,
   kPrettyUnitsMetricSuffixes,
   kPrettyUnitsBinarySuffixes,
   kPrettyUnitsBinaryIECSuffixes,
@@ -254,11 +264,19 @@ std::string prettyPrint(double val, PrettyType type, bool addSpace) {
   double abs_val = fabs(val);
   for (int i = 0; suffixes[i].suffix; ++i) {
     if (abs_val >= suffixes[i].val) {
-      snprintf(buf, sizeof buf, "%.4g%s%s",
-               (suffixes[i].val ? (val / suffixes[i].val)
-                                : val),
-               (addSpace ? " " : ""),
-               suffixes[i].suffix);
+      if (type == PRETTY_BYTES_BINARY_IEC_F) {
+        snprintf(buf, sizeof buf,
+                 (suffixes[i].val ? "%.1f%s%s%s" : "%g%s%s%s"),
+                 (suffixes[i].val ? (val / suffixes[i].val) : val),
+                 (addSpace ? " " : ""),
+                 suffixes[i].suffix,
+                 (suffixes[i].val || val <= 1 ? "" : "s"));
+      } else {
+        snprintf(buf, sizeof buf, "%.4g%s%s",
+                 (suffixes[i].val ? (val / suffixes[i].val) : val),
+                 (addSpace ? " " : ""),
+                 suffixes[i].suffix);
+      }
       return std::string(buf);
     }
   }
@@ -503,6 +521,17 @@ void toLowerAscii(char* str, size_t length) {
     toLowerAscii8(str[offset]);
     offset++;
   }
+}
+
+LineEnding estimateLineEnding(StringPiece sp) {
+  size_t nCR = std::count(sp.begin(), sp.end(), '\r');
+  size_t nLF = std::count(sp.begin(), sp.end(), '\n');
+
+  if (nCR == 0 && nLF == 0) return LineEnding::NONE;
+  if (nCR == 0)             return LineEnding::LF;
+  if (nLF == 0)             return LineEnding::CR;
+  if (nCR == nLF)           return LineEnding::CRLF;
+  return LineEnding::MIXED;
 }
 
 namespace detail {

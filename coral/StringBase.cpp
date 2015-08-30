@@ -55,4 +55,15 @@ loop:
   return sp;
 }
 
+StringPiece trim(StringPiece sp, StringPiece chars) {
+  for (; !sp.empty() && chars.find(sp.front()) != StringPiece::npos; ) {
+    sp.pop_front();
+  }
+  for (; !sp.empty() && chars.find(sp.back()) != StringPiece::npos; ) {
+    sp.pop_back();
+  }
+  return sp;
 }
+
+}
+
