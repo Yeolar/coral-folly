@@ -19,15 +19,13 @@
 #include <coral/Conv.h>
 #include <coral/Utf8StringPiece.h>
 
-//#define U_HIDE_DRAFT_API
-#define U_DISABLE_RENAMING 1
+//#define U_HIDE_DRAFT_API 1
+//#define U_DISABLE_RENAMING 1
 
 #include <unicode/uchar.h>
 #include <unicode/unistr.h>
 #include <unicode/normlzr.h>
 #include <unicode/translit.h>
-
-#define JAVA_API 0
 
 namespace coral {
 
@@ -214,7 +212,7 @@ namespace unicode {
  */
 bool isAlpha(char32_t cp) {
   if (cp < 0x80) return isalpha(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isalpha(cp);
 #else
   return u_isUAlphabetic(cp);
@@ -231,7 +229,7 @@ bool isAlpha(char32_t cp) {
  */
 bool isLower(char32_t cp) {
   if (cp < 0x80) return islower(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_islower(cp);
 #else
   return u_isULowercase(cp);
@@ -248,7 +246,7 @@ bool isLower(char32_t cp) {
  */
 bool isUpper(char32_t cp) {
   if (cp < 0x80) return isupper(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isupper(cp);
 #else
   return u_isUUppercase(cp);
@@ -311,7 +309,7 @@ bool isXDigit(char32_t cp) {
  */
 bool isAlnum(char32_t cp) {
   if (cp < 0x80) return isalnum(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isalnum(cp);
 #else
   return u_hasBinaryProperty(cp, UCHAR_POSIX_ALNUM);
@@ -384,7 +382,7 @@ bool isJavaSpace(char32_t cp) {
  *  = kCFCharacterSetWhitespaceAndNewline - 200b
  */
 bool isWhitespace(char32_t cp) {
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isWhitespace(cp);
 #else
   return u_isUWhiteSpace(cp);
@@ -433,7 +431,7 @@ bool isBlank(char32_t cp) {
  */
 bool isCntrl(char32_t cp) {
   if (cp < 0x80) return iscntrl(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_iscntrl(cp);
 #else
   return u_charType(cp)==U_CONTROL_CHAR;
@@ -460,7 +458,7 @@ bool isISOControl(char32_t cp) {
  */
 bool isGraph(char32_t cp) {
   if (cp < 0x80) return isgraph(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isgraph(cp);
 #else
   return u_hasBinaryProperty(cp, UCHAR_POSIX_GRAPH);
@@ -475,7 +473,7 @@ bool isGraph(char32_t cp) {
  */
 bool isPrint(char32_t cp) {
   if (cp < 0x80) return isprint(cp);
-#if JAVA_API
+#if CORAL_UNICODE_JAVA_API
   return u_isprint(cp);
 #else
   return u_hasBinaryProperty(cp, UCHAR_POSIX_PRINT);

@@ -110,5 +110,9 @@
 #cmakedefine CORAL_LOG_USE_ABORT 1
 #cmakedefine CORAL_LOG_TIMESTAMP 1
 
+/* unicode */
+
+#cmakedefine CORAL_UNICODE_JAVA_API 1
+
 #endif /* CORAL_CONFIG_H_ */
 
