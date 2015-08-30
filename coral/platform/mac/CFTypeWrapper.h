@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CORAL_CFTYPE_WRAPPER_H_
-#define CORAL_CFTYPE_WRAPPER_H_
+#ifndef CORAL_PLATFORM_MAC_CFTYPE_WRAPPER_H_
+#define CORAL_PLATFORM_MAC_CFTYPE_WRAPPER_H_
 
 #ifdef __APPLE__
 
@@ -223,5 +223,5 @@ CFDictionaryWrapper wrapToCFObject(const std::map<K, V>& d) {
 
 #endif
 
-#endif /* CORAL_CFTYPE_WRAPPER_H_ */
+#endif /* CORAL_PLATFORM_MAC_CFTYPE_WRAPPER_H_ */
 

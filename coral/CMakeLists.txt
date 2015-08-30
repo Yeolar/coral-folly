@@ -94,10 +94,6 @@ install(FILES
     DESTINATION include/coral
 )
 install(FILES
-    apple/CFTypeWrapper.h
-    DESTINATION include/coral/apple
-)
-install(FILES
     detail/Clock.h
     detail/FunctionalExcept.h
     detail/Malloc.h
@@ -106,6 +102,10 @@ install(FILES
     detail/ThreadLocalDetail.h
     detail/UncaughtExceptionCounter.h
     DESTINATION include/coral/detail
+)
+install(FILES
+    platform/mac/CFTypeWrapper.h
+    DESTINATION include/coral/platform/mac
 )
 install(TARGETS
     coral
