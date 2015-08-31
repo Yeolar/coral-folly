@@ -14,4 +14,8 @@ install(FILES
     FsUtil-inl.h
     DESTINATION include/coral/io
 )
+install(FILES
+    async/Request.h
+    DESTINATION include/coral/io/async
+)
 

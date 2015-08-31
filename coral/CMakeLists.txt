@@ -16,6 +16,7 @@ set(CORAL_BASE_SRCS
     Malloc.cpp
     Random.cpp
     Range.cpp
+    Singleton.cpp
     SpookyHashV1.cpp
     SpookyHashV2.cpp
     StringBase.cpp
@@ -26,9 +27,12 @@ set(CORAL_BASE_SRCS
     Utf8StringPiece.cpp
     build/EscapeTables.cpp
     build/FormatTables.cpp
+    detail/CacheLocality.cpp
     detail/Clock.cpp
     detail/FunctionalExcept.cpp
+    detail/Futex.cpp
     detail/MallocImpl.cpp
+    detail/MemoryIdler.cpp
 )
 add_library(coral_base OBJECT ${CORAL_BASE_SRCS})
 set_property(TARGET coral_base PROPERTY POSITION_INDEPENDENT_CODE 1)
@@ -36,6 +40,8 @@ set_property(TARGET coral_base PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 install(FILES
     ApplyTuple.h
+    AtomicStruct.h
+    Baton.h
     Benchmark.h
     Binascii.h
     Binascii-inl.h
@@ -78,6 +84,8 @@ install(FILES
     Range.h
     RWSpinLock.h
     ScopeGuard.h
+    Singleton.h
+    Singleton-inl.h
     SmallLocks.h
     SpinLock.h
     SpookyHashV1.h
@@ -94,9 +102,12 @@ install(FILES
     DESTINATION include/coral
 )
 install(FILES
+    detail/CacheLocality.h
     detail/Clock.h
     detail/FunctionalExcept.h
+    detail/Futex.h
     detail/Malloc.h
+    detail/MemoryIdler.h
     detail/Sleeper.h
     detail/SpinLockImpl.h
     detail/ThreadLocalDetail.h

@@ -16,8 +16,8 @@
  */
 
 #include <coral/io/FsUtil.h>
+#include <coral/Logging.h>
 
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 
 using namespace coral;
