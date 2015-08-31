@@ -19,7 +19,9 @@ set(VERSION_MINOR 0)
 set(VERSION_MICRO 0)
 set(VERSION_PATCH 0)
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.8)
+
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-scripts")
 
 # http://www.cmake.org/Wiki/CMake_RPATH_handling#Mac_OS_X_and_the_RPATH
 if(APPLE)
@@ -292,20 +294,32 @@ add_subdirectory(coral)
 add_subdirectory(coral/io)
 add_subdirectory(coral/platform)
 
-add_library(coral "")
-target_link_libraries(coral
-    coral_base
-    coral_io
+# Link libraries
+add_library(coral_static STATIC
+    $<TARGET_OBJECTS:coral_base>
+    $<TARGET_OBJECTS:coral_io>
 )
+set_target_properties(coral_static PROPERTIES OUTPUT_NAME coral)
+add_library(coral_shared SHARED
+    $<TARGET_OBJECTS:coral_base>
+    $<TARGET_OBJECTS:coral_io>
+)
+set_target_properties(coral_shared PROPERTIES OUTPUT_NAME coral)
 
-install(TARGETS
-    coral
+install(TARGETS coral_static
+    DESTINATION lib
+    PERMISSIONS OWNER_READ OWNER_WRITE
+                GROUP_READ
+                WORLD_READ
+)
+install(TARGETS coral_shared
     DESTINATION lib
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
                 GROUP_READ GROUP_EXECUTE
                 WORLD_READ WORLD_EXECUTE
 )
 
+# Test
 if(GTEST_FOUND)
     enable_testing()
     add_subdirectory(coral/test)

@@ -2,7 +2,7 @@
 # Copyright (C) 2015, Yeolar
 #
 
-option(BUILD_SHARED_LIBS "build as shared libs" ON)
+option(BUILD_SHARED_LIBS "build shared libs" ON)
 
 option(CORAL_DYNAMIC_EXTEND_DATA "dynamic: extend a DATA type" ON)
 

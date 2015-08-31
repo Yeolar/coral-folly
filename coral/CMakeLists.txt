@@ -30,7 +30,8 @@ set(CORAL_BASE_SRCS
     detail/FunctionalExcept.cpp
     detail/MallocImpl.cpp
 )
-add_library(coral_base ${CORAL_BASE_SRCS})
+add_library(coral_base OBJECT ${CORAL_BASE_SRCS})
+set_property(TARGET coral_base PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 
 install(FILES
