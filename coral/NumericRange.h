@@ -107,14 +107,6 @@ NumericRange<T> numericRange(const T& b, const T& e) {
 typedef NumericRange<size_t> SizeRange;
 typedef NumericRange<ssize_t> SSizeRange;
 
-inline SizeRange sizeRange(size_t b, size_t e) {
-  return SizeRange(b, e);
-}
-
-inline SSizeRange ssizeRange(ssize_t b, ssize_t e) {
-  return SSizeRange(b, e);
-}
-
 } // namespace coral
 
 #endif /* CORAL_NUMERIC_RANGE_H_ */

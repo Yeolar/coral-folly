@@ -16,6 +16,7 @@ set(CORAL_BASE_SRCS
     Malloc.cpp
     Random.cpp
     Range.cpp
+    Regex.cpp
     Singleton.cpp
     SpookyHashV1.cpp
     SpookyHashV2.cpp
@@ -82,6 +83,7 @@ install(FILES
     Random.h
     Random-inl.h
     Range.h
+    Regex.h
     RWSpinLock.h
     ScopeGuard.h
     Singleton.h
