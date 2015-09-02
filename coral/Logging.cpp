@@ -16,6 +16,8 @@
 
 #include <coral/Logging.h>
 
+#if !(CORAL_HAVE_LIBGLOG && CORAL_USE_GLOG)
+
 #include <cerrno>
 #include <cstdarg>
 #include <system_error>
@@ -183,3 +185,4 @@ LogWriter* get() {
 } // namespace logging
 } // namespace coral
 
+#endif

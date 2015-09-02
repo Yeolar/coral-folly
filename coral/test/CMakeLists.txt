@@ -2,6 +2,13 @@
 # Copyright (C) 2015, Yeolar
 #
 
+set(CORAL_BASE_TEST_LIB_SRCS
+    DeterministicSchedule.cpp
+)
+add_library(coral_base_test STATIC ${CORAL_BASE_TEST_LIB_SRCS})
+target_link_libraries(coral_base_test coral_static)
+
+
 set(CORAL_BASE_TEST_SRCS
     ApplyTupleTest.cpp
     AsciiCaseInsensitiveTest.cpp
@@ -9,28 +16,36 @@ set(CORAL_BASE_TEST_SRCS
     ConvTest.cpp
     CpuIdTest.cpp
     DemangleTest.cpp
+    DeterministicScheduleTest.cpp
     DynamicConverterTest.cpp
     #DynamicOtherTest.cpp
     DynamicTest.cpp
     ExceptionTest.cpp
+    ExceptionWrapperBenchmark.cpp
+    ExceptionWrapperTest.cpp
     FBStringTest.cpp
     FBVectorTest.cpp
     #FileTest.cpp
     #FileUtilTest.cpp  # no typeof under -std
     ForeachTest.cpp
-    #FormatOtherTest.cpp
+    FormatOtherTest.cpp
     FormatTest.cpp
     HashTest.cpp
+    IndexedMemPoolTest.cpp
     JsonOtherTest.cpp
     JsonTest.cpp
-    MapUtilTest.cpp
+    LifoSemTests.cpp
     #MemoryTest.cpp
+    MPMCQueueTest.cpp
+    MapUtilTest.cpp
+    MoveWrapperTest.cpp
     OptionalTest.cpp
     PortabilityTest.cpp
+    RWSpinLockTest.cpp
     RandomTest.cpp
     RangeTest.cpp
-    RWSpinLockTest.cpp
     ScopeGuardTest.cpp
+    SocketAddressTest.cpp
     SpinLockTest.cpp
     SpookyHashV1Test.cpp
     SpookyHashV2Test.cpp
@@ -38,12 +53,14 @@ set(CORAL_BASE_TEST_SRCS
     SynchronizedTest.cpp
     ThreadLocalTest.cpp
     TraitsTest.cpp
+    small_vector_test.cpp
 )
 
 foreach(test_src ${CORAL_BASE_TEST_SRCS})
     get_filename_component(test ${test_src} NAME_WE)
     add_executable(${test} ${test_src})
-    target_link_libraries(${test} gtest gtest_main gmock coral_static)
+    target_link_libraries(${test}
+        gtest gtest_main gmock coral_static coral_base_test)
     add_test(coral_${test} ${test} CONFIGURATIONS Debug)
 endforeach()
 

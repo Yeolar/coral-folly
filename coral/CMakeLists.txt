@@ -5,27 +5,34 @@
 set(CORAL_BASE_SRCS
     Benchmark.cpp
     Binascii.cpp
+    Bits.cpp
     Conv.cpp
     Demangle.cpp
-    dynamic.cpp
     File.cpp
     FileUtil.cpp
     Format.cpp
-    json.cpp
+    IPAddress.cpp
+    IPAddressV4.cpp
+    IPAddressV6.cpp
+    LifoSem.cpp
     Logging.cpp
+    MacAddress.cpp
     Malloc.cpp
     Random.cpp
     Range.cpp
     Regex.cpp
     Singleton.cpp
+    SocketAddress.cpp
     SpookyHashV1.cpp
     SpookyHashV2.cpp
-    StringBase.cpp
     String.cpp
+    StringBase.cpp
     Time.cpp
     TypeDef.cpp
     Unicode.cpp
     Utf8StringPiece.cpp
+    dynamic.cpp
+    json.cpp
     build/EscapeTables.cpp
     build/FormatTables.cpp
     detail/CacheLocality.cpp
@@ -36,83 +43,103 @@ set(CORAL_BASE_SRCS
     detail/MemoryIdler.cpp
 )
 add_library(coral_base OBJECT ${CORAL_BASE_SRCS})
-set_property(TARGET coral_base PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 
 install(FILES
     ApplyTuple.h
+    AtomicLinkedList.h
     AtomicStruct.h
     Baton.h
     Benchmark.h
-    Binascii.h
     Binascii-inl.h
-    Conv.h
-    Conv-ext.h
-    coral-config.h
+    Binascii.h
+    Bits.h
     CPortability.h
+    Conv-ext.h
+    Conv.h
     CpuId.h
     Demangle.h
     DynamicConverter.h
-    dynamic.h
-    dynamic-inl.h
     Enum.h
     Exception.h
+    ExceptionWrapper.h
+    Executor.h
     FBString.h
     FBVector.h
     File.h
     FileUtil.h
     FixedStream.h
     Foreach.h
-    FormatArg.h
-    Format.h
     Format-inl.h
+    Format.h
+    FormatArg.h
     FormatTraits.h
     Hash.h
-    json.h
+    IndexedMemPool.h
+    IPAddress.h
+    IPAddressException.h
+    IPAddressV4.h
+    IPAddressV6.h
+    LifoSem.h
     Likely.h
     Logging.h
+    MPMCQueue.h
+    MacAddress.h
     Malloc.h
     MapUtil.h
     Memory.h
     MicroSpinLock.h
+    MoveWrapper.h
     NumericRange.h
     Optional.h
     PicoSpinLock.h
     Portability.h
     Preprocessor.h
-    Random.h
+    RWSpinLock.h
     Random-inl.h
+    Random.h
     Range.h
     Regex.h
-    RWSpinLock.h
     ScopeGuard.h
-    Singleton.h
     Singleton-inl.h
+    Singleton.h
     SmallLocks.h
+    SocketAddress.h
     SpinLock.h
     SpookyHashV1.h
     SpookyHashV2.h
-    String.h
     String-inl.h
+    String.h
     Synchronized.h
     ThreadLocal.h
+    ThreadName.h
     Time.h
     Traits.h
     TypeDef.h
     Unicode.h
     Utf8StringPiece.h
+    coral-config.h
+    dynamic-inl.h
+    dynamic.h
+    json.h
+    small_vector.h
     DESTINATION include/coral
 )
 install(FILES
+    detail/BitIteratorDetail.h
+    detail/BitsDetail.h
     detail/CacheLocality.h
     detail/Clock.h
+    detail/ExceptionWrapper.h
     detail/FunctionalExcept.h
     detail/Futex.h
+    detail/IPAddress.h
     detail/Malloc.h
     detail/MemoryIdler.h
     detail/Sleeper.h
     detail/SpinLockImpl.h
     detail/ThreadLocalDetail.h
+    detail/TurnSequencer.h
     detail/UncaughtExceptionCounter.h
     DESTINATION include/coral/detail
 )

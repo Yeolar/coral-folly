@@ -4,18 +4,21 @@
 
 set(CORAL_IO_SRCS
     FsUtil.cpp
+    IOBuf.cpp
+    IOBufQueue.cpp
+    ShutdownSocketSet.cpp
 )
 add_library(coral_io OBJECT ${CORAL_IO_SRCS})
-set_property(TARGET coral_io PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 
 install(FILES
-    FsUtil.h
+    Cursor-defs.h
+    Cursor.h
     FsUtil-inl.h
+    FsUtil.h
+    IOBuf.h
+    IOBufQueue.h
+    ShutdownSocketSet.h
+    TypedIOBuf.h
     DESTINATION include/coral/io
 )
-install(FILES
-    async/Request.h
-    DESTINATION include/coral/io/async
-)
-

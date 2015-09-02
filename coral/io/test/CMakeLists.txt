@@ -4,6 +4,9 @@
 
 set(CORAL_IO_TEST_SRCS
     FsUtilTest.cpp
+    IOBufCursorTest.cpp
+    IOBufQueueTest.cpp
+    IOBufTest.cpp
 )
 
 foreach(test_src ${CORAL_IO_TEST_SRCS})

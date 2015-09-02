@@ -10,6 +10,7 @@ else()
     set(CMAKE_C_COMPILER gcc-4.8)
     set(CMAKE_CXX_COMPILER g++-4.8)
 endif()
+set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC")
 
 # Define project
 project(coral)
@@ -52,10 +53,10 @@ set(CORAL_HAVE_BOOST_SYSTEM ${Boost_SYSTEM_FOUND})
 set(CORAL_HAVE_BOOST_THREAD ${Boost_THREAD_FOUND})
 if(APPLE)
     set(CORAL_LINK_BOOST
-        boost_filesystem-mt boost_regex-mt boost_system-mt boost_thread-mt)
+        boost_context_mt boost_filesystem-mt boost_regex-mt boost_system-mt boost_thread-mt)
 else()
     set(CORAL_LINK_BOOST
-        boost_filesystem boost_regex boost_system boost_thread)
+        boost_context boost_filesystem boost_regex boost_system boost_thread)
 endif()
 
 find_package(double-conversion REQUIRED)
@@ -64,6 +65,11 @@ find_package(GFlags REQUIRED)
 set(CORAL_HAVE_LIBGFLAGS ${GFLAGS_FOUND})
 find_package(ICU REQUIRED)
 set(CORAL_HAVE_LIBICU ${ICU_FOUND})
+# io/async
+find_package(LibEvent)
+set(CORAL_HAVE_LIBEVENT ${LibEvent_FOUND})
+find_package(OpenSSL)
+set(CORAL_HAVE_LIBSSL ${OPENSSL_FOUND})
 
 # Optional packages
 find_package(Glog)
@@ -72,8 +78,6 @@ find_package(GTest)
 set(CORAL_HAVE_LIBGTEST ${GTEST_FOUND})
 find_package(JeMalloc)
 set(CORAL_HAVE_LIBJEMALLOC ${JEMALLOC_FOUND})
-find_package(LibEvent)
-set(CORAL_HAVE_LIBEVENT ${LibEvent_FOUND})
 find_package(LZ4)
 set(CORAL_HAVE_LIBLZ4 ${LZ4_FOUND})
 find_package(LibLZMA)
@@ -82,8 +86,6 @@ find_package(ONIGURUMA)
 set(CORAL_HAVE_LIBONIG ${ONIGURUMA_FOUND})
 find_package(Snappy)
 set(CORAL_HAVE_LIBSNAPPY ${SNAPPY_FOUND})
-find_package(OpenSSL)
-set(CORAL_HAVE_LIBSSL ${OPENSSL_FOUND})
 find_package(ZLIB)
 set(CORAL_HAVE_LIBZ ${ZLIB_FOUND})
 
@@ -94,16 +96,14 @@ include(CMakeOptions.cmake)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-add_definitions(
-    -std=c++11
-)
-
 # Link libraries
 link_libraries(
     ${CORAL_LINK_BOOST}
     double-conversion
     gflags
     pthread
+    event
+    ssl
 )
 if(CORAL_HAVE_LIBGLOG AND CORAL_USE_GLOG)
     link_libraries(glog)
@@ -296,18 +296,27 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 # Work on all sub directories
 add_subdirectory(coral)
+add_subdirectory(coral/fibers)
+add_subdirectory(coral/futures)
 add_subdirectory(coral/io)
+add_subdirectory(coral/io/async)
 add_subdirectory(coral/platform)
 
 # Link libraries
 add_library(coral_static STATIC
     $<TARGET_OBJECTS:coral_base>
+    $<TARGET_OBJECTS:coral_fibers>
+    $<TARGET_OBJECTS:coral_futures>
     $<TARGET_OBJECTS:coral_io>
+    $<TARGET_OBJECTS:coral_io_async>
 )
 set_target_properties(coral_static PROPERTIES OUTPUT_NAME coral)
 add_library(coral_shared SHARED
     $<TARGET_OBJECTS:coral_base>
+    $<TARGET_OBJECTS:coral_fibers>
+    $<TARGET_OBJECTS:coral_futures>
     $<TARGET_OBJECTS:coral_io>
+    $<TARGET_OBJECTS:coral_io_async>
 )
 set_target_properties(coral_shared PROPERTIES OUTPUT_NAME coral)
 
@@ -328,6 +337,8 @@ install(TARGETS coral_shared
 if(GTEST_FOUND)
     enable_testing()
     add_subdirectory(coral/test)
+    add_subdirectory(coral/futures/test)
     add_subdirectory(coral/io/test)
+    add_subdirectory(coral/io/async/test)
 endif()
 

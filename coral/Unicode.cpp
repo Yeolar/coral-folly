@@ -17,6 +17,7 @@
 
 #include <coral/Unicode.h>
 #include <coral/Conv.h>
+#include <coral/Logging.h>
 #include <coral/Utf8StringPiece.h>
 
 //#define U_HIDE_DRAFT_API 1
@@ -647,7 +648,7 @@ std::string normalize(const coral::StringPiece& sp, NormalizationMode mode) {
   icu::Normalizer::normalize(
       us, (UNormalizationMode)mode, 0, out, err);
   if (err != U_ZERO_ERROR) {
-    LOG(DEBUG) << "normalize error: " << err;
+    LOG(WARNING) << "normalize error: " << err;
   }
   out.toUTF8String(result);
   return result;
@@ -662,7 +663,7 @@ std::string asciify(const coral::StringPiece& sp) {
   icu::Transliterator::createInstance(
       "any-Latin; Latin-ASCII", UTRANS_FORWARD, err);
   if (err != U_ZERO_ERROR) {
-    LOG(DEBUG) << "Create Transliterator instance error: " << err;
+    LOG(WARNING) << "Create Transliterator instance error: " << err;
   }
   trans->transliterate(us);
   us.toUTF8String(result);

@@ -270,6 +270,9 @@ public:
 #define LOG(severity)   LOG_STREAM_ ## severity
 #define PLOG(severity)  LOG_STREAM_ ## severity << strerror(errno) << " "
 
+// currently just alias to LOG(DEBUG)
+#define VLOG(i)         LOG_STREAM_DEBUG
+
 #define LOG_FIRST_N(severity, n)                  \
   static int LOG_OCCURRENCES = 0;               \
   if (LOG_OCCURRENCES <= n) ++LOG_OCCURRENCES;  \
