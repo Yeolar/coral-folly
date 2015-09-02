@@ -16,7 +16,7 @@
 #include <memory>
 #include <vector>
 
-#include <coral\/fibers/FiberManager.h>
+#include <coral/fibers/FiberManager.h>
 
 namespace coral { namespace fibers {
 

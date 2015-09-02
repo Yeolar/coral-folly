@@ -22,12 +22,12 @@
 #include <coral/Benchmark.h>
 #include <coral/Memory.h>
 
-#include <coral\/fibers/AddTasks.h>
-#include <coral\/fibers/EventBaseLoopController.h>
-#include <coral\/fibers/FiberManager.h>
-#include <coral\/fibers/GenericBaton.h>
-#include <coral\/fibers/SimpleLoopController.h>
-#include <coral\/fibers/WhenN.h>
+#include <coral/fibers/AddTasks.h>
+#include <coral/fibers/EventBaseLoopController.h>
+#include <coral/fibers/FiberManager.h>
+#include <coral/fibers/GenericBaton.h>
+#include <coral/fibers/SimpleLoopController.h>
+#include <coral/fibers/WhenN.h>
 
 using namespace coral::fibers;
 

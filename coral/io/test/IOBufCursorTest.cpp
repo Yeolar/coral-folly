@@ -743,7 +743,7 @@ BENCHMARK(skipBenchmark, iters) {
 }
 
 // fbmake opt
-// _bin/coral\/io/test/iobuf_cursor_test -benchmark
+// _bin/coral/io/test/iobuf_cursor_test -benchmark
 //
 // Benchmark                               Iters   Total t    t/iter iter/sec
 // ---------------------------------------------------------------------------

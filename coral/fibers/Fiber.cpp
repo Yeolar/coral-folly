@@ -25,8 +25,8 @@
 
 #include <coral/Likely.h>
 #include <coral/Portability.h>
-#include <coral\/fibers/BoostContextCompatibility.h>
-#include <coral\/fibers/FiberManager.h>
+#include <coral/fibers/BoostContextCompatibility.h>
+#include <coral/fibers/FiberManager.h>
 
 namespace coral { namespace fibers {
 

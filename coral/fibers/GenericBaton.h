@@ -17,7 +17,7 @@
 
 #include <coral/Baton.h>
 
-#include <coral\/fibers/Baton.h>
+#include <coral/fibers/Baton.h>
 
 namespace coral { namespace fibers {
 

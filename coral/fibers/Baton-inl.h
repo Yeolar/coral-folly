@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <coral\/fibers/Fiber.h>
-#include <coral\/fibers/FiberManager.h>
+#include <coral/fibers/Fiber.h>
+#include <coral/fibers/FiberManager.h>
 
 namespace coral { namespace fibers {
 

@@ -25,10 +25,10 @@
 #ifdef __APPLE__
 #include <coral/ThreadLocal.h>
 #endif
-#include <coral\/fibers/Baton.h>
-#include <coral\/fibers/Fiber.h>
-#include <coral\/fibers/LoopController.h>
-#include <coral\/fibers/Promise.h>
+#include <coral/fibers/Baton.h>
+#include <coral/fibers/Fiber.h>
+#include <coral/fibers/LoopController.h>
+#include <coral/fibers/Promise.h>
 #include <coral/futures/Try.h>
 
 namespace coral { namespace fibers {

@@ -18,7 +18,7 @@
 #include <atomic>
 
 #include <coral/detail/Futex.h>
-#include <coral\/fibers/TimeoutController.h>
+#include <coral/fibers/TimeoutController.h>
 
 namespace coral { namespace fibers {
 
@@ -152,4 +152,4 @@ class Baton {
 
 }}
 
-#include <coral\/fibers/Baton-inl.h>
+#include <coral/fibers/Baton-inl.h>

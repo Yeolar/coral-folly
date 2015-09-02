@@ -15,7 +15,7 @@
  */
 #pragma once
 
-#include <coral\/fibers/traits.h>
+#include <coral/fibers/traits.h>
 #include <coral/futures/Try.h>
 
 namespace coral { namespace fibers {
@@ -97,4 +97,4 @@ class Promise {
 
 }}
 
-#include <coral\/fibers/Promise-inl.h>
+#include <coral/fibers/Promise-inl.h>

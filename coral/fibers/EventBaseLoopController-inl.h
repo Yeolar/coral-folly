@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 #include <coral/Memory.h>
-#include <coral\/fibers/EventBaseLoopController.h>
-#include <coral\/fibers/FiberManager.h>
+#include <coral/fibers/EventBaseLoopController.h>
+#include <coral/fibers/FiberManager.h>
 #include <coral/io/async/EventBase.h>
 
 namespace coral { namespace fibers {

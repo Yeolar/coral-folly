@@ -17,7 +17,7 @@
 
 #include <memory>
 #include <atomic>
-#include <coral\/fibers/LoopController.h>
+#include <coral/fibers/LoopController.h>
 
 namespace coral {
 class EventBase;

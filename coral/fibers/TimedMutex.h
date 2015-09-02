@@ -17,7 +17,7 @@
 
 #include <pthread.h>
 
-#include <coral\/fibers/GenericBaton.h>
+#include <coral/fibers/GenericBaton.h>
 
 namespace coral { namespace fibers {
 

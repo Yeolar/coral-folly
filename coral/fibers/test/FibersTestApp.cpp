@@ -18,8 +18,8 @@
 
 #include <coral/Memory.h>
 
-#include <coral\/fibers/FiberManager.h>
-#include <coral\/fibers/SimpleLoopController.h>
+#include <coral/fibers/FiberManager.h>
+#include <coral/fibers/SimpleLoopController.h>
 
 using namespace coral::fibers;
 

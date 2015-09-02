@@ -15,8 +15,8 @@
  */
 #pragma once
 
-#include <coral\/fibers/FiberManager.h>
-#include <coral\/fibers/EventBaseLoopController.h>
+#include <coral/fibers/FiberManager.h>
+#include <coral/fibers/EventBaseLoopController.h>
 
 namespace coral { namespace fibers {
 

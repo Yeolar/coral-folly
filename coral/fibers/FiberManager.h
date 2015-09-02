@@ -30,11 +30,11 @@
 #include <coral/io/async/Request.h>
 #include <coral/futures/Try.h>
 
-#include <coral\/ExecutionObserver.h>
-#include <coral\/fibers/BoostContextCompatibility.h>
-#include <coral\/fibers/Fiber.h>
-#include <coral\/fibers/GuardPageAllocator.h>
-#include <coral\/fibers/traits.h>
+#include <coral/ExecutionObserver.h>
+#include <coral/fibers/BoostContextCompatibility.h>
+#include <coral/fibers/Fiber.h>
+#include <coral/fibers/GuardPageAllocator.h>
+#include <coral/fibers/traits.h>
 
 namespace coral { namespace fibers {
 

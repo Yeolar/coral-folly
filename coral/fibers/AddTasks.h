@@ -19,7 +19,7 @@
 #include <vector>
 
 #include <coral/Optional.h>
-#include <coral\/fibers/Promise.h>
+#include <coral/fibers/Promise.h>
 #include <coral/futures/Try.h>
 
 namespace coral { namespace fibers {
@@ -122,4 +122,4 @@ class TaskIterator {
 
 }}
 
-#include <coral\/fibers/AddTasks-inl.h>
+#include <coral/fibers/AddTasks-inl.h>

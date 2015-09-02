@@ -15,8 +15,8 @@
  */
 #include <coral/Optional.h>
 
-#include <coral\/fibers/FiberManager.h>
-#include <coral\/fibers/ForEach.h>
+#include <coral/fibers/FiberManager.h>
+#include <coral/fibers/ForEach.h>
 
 namespace coral { namespace fibers {
 

@@ -23,8 +23,8 @@
 
 #include <glog/logging.h>
 
-#include <coral\/fibers/Fiber.h>
-#include <coral\/fibers/LoopController.h>
+#include <coral/fibers/Fiber.h>
+#include <coral/fibers/LoopController.h>
 
 namespace coral { namespace fibers {
 

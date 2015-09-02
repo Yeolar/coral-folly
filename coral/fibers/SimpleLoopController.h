@@ -17,7 +17,7 @@
 
 #include <coral/Likely.h>
 
-#include <coral\/fibers/LoopController.h>
+#include <coral/fibers/LoopController.h>
 
 namespace coral { namespace fibers {
 

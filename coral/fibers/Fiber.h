@@ -23,7 +23,7 @@
 #include <coral/AtomicLinkedList.h>
 #include <coral/CPortability.h>
 #include <coral/IntrusiveList.h>
-#include <coral\/fibers/BoostContextCompatibility.h>
+#include <coral/fibers/BoostContextCompatibility.h>
 #include <coral/io/async/Request.h>
 #include <coral/Portability.h>
 
@@ -171,4 +171,4 @@ class Fiber {
 
 }}
 
-#include <coral\/fibers/Fiber-inl.h>
+#include <coral/fibers/Fiber-inl.h>
