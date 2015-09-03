@@ -61,8 +61,10 @@ install(FILES
     Demangle.h
     DynamicConverter.h
     Enum.h
+    EvictingCacheMap.h
     Exception.h
     ExceptionWrapper.h
+    ExecutionObserver.h
     Executor.h
     FBString.h
     FBVector.h
@@ -76,6 +78,7 @@ install(FILES
     FormatTraits.h
     Hash.h
     IndexedMemPool.h
+    IntrusiveList.h
     IPAddress.h
     IPAddressException.h
     IPAddressV4.h

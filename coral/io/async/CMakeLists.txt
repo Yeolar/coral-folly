@@ -30,7 +30,6 @@ install(FILES
     AsyncTransport.h
     AsyncUDPServerSocket.h
     AsyncUDPSocket.h
-    CMakeLists.txt
     DelayedDestruction.h
     DelayedDestructionBase.h
     EventBase.h
@@ -40,6 +39,7 @@ install(FILES
     EventUtil.h
     HHWheelTimer.h
     NotificationQueue.h
+    Request.h
     ScopedEventBaseThread.h
     SSLContext.h
     TimeoutManager.h
