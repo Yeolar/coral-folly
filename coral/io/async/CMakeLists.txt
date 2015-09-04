@@ -45,3 +45,7 @@ install(FILES
     TimeoutManager.h
     DESTINATION include/coral/io/async
 )
+install(FILES
+    test/MockAsyncSSLSocket.h
+    DESTINATION include/coral/io/async/test
+)
