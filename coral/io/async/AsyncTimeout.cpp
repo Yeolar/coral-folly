@@ -25,7 +25,7 @@
 #include <coral/io/async/Request.h>
 
 #include <assert.h>
-#include <glog/logging.h>
+#include <coral/Logging.h>
 
 namespace coral {
 

@@ -19,9 +19,9 @@
 
 #include <coral/io/async/AsyncTimeout.h>
 #include <coral/io/async/DelayedDestruction.h>
+#include <coral/Logging.h>
 
 #include <boost/intrusive/list.hpp>
-#include <glog/logging.h>
 
 #include <chrono>
 #include <cstddef>

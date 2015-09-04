@@ -19,7 +19,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <glog/logging.h>
+#include <coral/Logging.h>
 #include <coral/SocketAddress.h>
 #include <coral/io/ShutdownSocketSet.h>
 #include <coral/io/IOBuf.h>

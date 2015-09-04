@@ -18,7 +18,6 @@
 #ifndef CORAL_IO_IOBUF_H_
 #define CORAL_IO_IOBUF_H_
 
-#include <glog/logging.h>
 #include <atomic>
 #include <cassert>
 #include <cinttypes>
@@ -34,6 +33,7 @@
 #include <coral/FBString.h>
 #include <coral/Range.h>
 #include <coral/FBVector.h>
+#include <coral/Logging.h>
 
 // Ignore shadowing warnings within this file, so includers can use -Wshadow.
 #pragma GCC diagnostic push

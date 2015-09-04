@@ -25,10 +25,10 @@
 #include <coral/io/async/DelayedDestruction.h>
 #include <coral/io/async/Request.h>
 #include <coral/Likely.h>
+#include <coral/Logging.h>
 #include <coral/ScopeGuard.h>
 #include <coral/SpinLock.h>
 
-#include <glog/logging.h>
 #include <deque>
 
 #if __linux__ && !__ANDROID__

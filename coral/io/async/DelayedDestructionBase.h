@@ -20,8 +20,8 @@
 #include <assert.h>
 #include <boost/noncopyable.hpp>
 #include <functional>
-#include <glog/logging.h>
 #include <inttypes.h>
+#include <coral/Logging.h>
 
 namespace coral {
 

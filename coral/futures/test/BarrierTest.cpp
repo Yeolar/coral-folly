@@ -20,8 +20,8 @@
 #include <condition_variable>
 #include <mutex>
 
+#include <coral/Logging.h>
 #include <coral/Random.h>
-#include <glog/logging.h>
 #include <gtest/gtest.h>
 
 DEFINE_int32(seed, 0, "Random seed");

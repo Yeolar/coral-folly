@@ -21,8 +21,7 @@
 #include <cassert>
 #include <stdexcept>
 
-#include <glog/logging.h>
-
+#include <coral/Logging.h>
 #include <coral/fibers/Fiber.h>
 #include <coral/fibers/LoopController.h>
 

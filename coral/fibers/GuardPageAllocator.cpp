@@ -20,10 +20,9 @@
 
 #include <mutex>
 
+#include <coral/Logging.h>
 #include <coral/Singleton.h>
 #include <coral/SpinLock.h>
-
-#include <glog/logging.h>
 
 namespace coral { namespace fibers {
 

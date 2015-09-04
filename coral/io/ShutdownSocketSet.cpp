@@ -23,9 +23,8 @@
 #include <chrono>
 #include <thread>
 
-#include <glog/logging.h>
-
 #include <coral/FileUtil.h>
+#include <coral/Logging.h>
 #include <coral/Malloc.h>
 
 namespace coral {

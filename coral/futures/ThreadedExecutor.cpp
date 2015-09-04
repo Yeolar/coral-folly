@@ -16,7 +16,7 @@
 
 #include <coral/futures/ThreadedExecutor.h>
 
-#include <glog/logging.h>
+#include <coral/Logging.h>
 
 using namespace std;
 

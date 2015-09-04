@@ -18,8 +18,8 @@
 #include <mutex>
 
 #include <gtest/gtest.h>
-#include <glog/logging.h>
 
+#include <coral/Logging.h>
 #include <coral/futures/Future.h>
 #include <coral/futures/Promise.h>
 

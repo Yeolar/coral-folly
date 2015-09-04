@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include <glog/logging.h>
+#include <coral/Logging.h>
 #include <coral/io/async/EventUtil.h>
 #include <boost/noncopyable.hpp>
 #include <stddef.h>

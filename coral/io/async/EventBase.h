@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include <glog/logging.h>
 #include <coral/io/async/AsyncTimeout.h>
 #include <coral/io/async/TimeoutManager.h>
 #include <coral/io/async/Request.h>
 #include <coral/ExecutionObserver.h>
 #include <coral/Executor.h>
+#include <coral/Logging.h>
 #include <coral/futures/DrivableExecutor.h>
 #include <memory>
 #include <stack>

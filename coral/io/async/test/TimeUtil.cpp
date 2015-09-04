@@ -18,6 +18,7 @@
 #include <coral/io/async/test/TimeUtil.h>
 
 #include <coral/Conv.h>
+#include <coral/Logging.h>
 
 #include <chrono>
 #include <sys/types.h>
@@ -25,7 +26,6 @@
 #include <sys/syscall.h>
 #include <sys/utsname.h>
 #include <errno.h>
-#include <glog/logging.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>

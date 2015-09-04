@@ -19,7 +19,7 @@
 
 #include <coral/io/async/DelayedDestructionBase.h>
 
-#include <glog/logging.h>
+#include <coral/Logging.h>
 
 namespace coral {
 

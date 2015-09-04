@@ -30,11 +30,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include <glog/logging.h>
-
 #ifndef CORAL_NO_CONFIG
 #include <coral/coral-config.h>
 #endif
+#include <coral/Logging.h>
 
 namespace coral {
 
