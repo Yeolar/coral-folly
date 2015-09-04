@@ -7,8 +7,9 @@ if(APPLE)
     set(CMAKE_C_COMPILER clang)
     set(CMAKE_CXX_COMPILER clang++)
 else()
-    set(CMAKE_C_COMPILER gcc-4.8)
-    set(CMAKE_CXX_COMPILER g++-4.8)
+    # required GCC >= 4.8
+    set(CMAKE_C_COMPILER gcc)
+    set(CMAKE_CXX_COMPILER g++)
 endif()
 set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC")
 
