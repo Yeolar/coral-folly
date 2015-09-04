@@ -91,7 +91,8 @@ include(CMakeOptions.cmake)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-add_compile_options(-std=c++11 -fPIC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+add_compile_options(-fPIC)
 
 # Link libraries
 link_libraries(
@@ -101,6 +102,7 @@ link_libraries(
     ${GLOG_LIBRARIES}
     ${LIBEVENT_LIB}
     ${OPENSSL_LIBRARIES}
+    dl
 )
 #if(CORAL_HAVE_LIBGLOG AND CORAL_USE_GLOG)
 #    link_libraries(${GLOG_LIBRARIES})
@@ -109,7 +111,7 @@ if(CORAL_HAVE_LIBICU)
     if(APPLE)
         link_libraries(icucore)
     else()
-        link_libraries(${ICU_LIBRARIES})
+        link_libraries(${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES})
     endif()
 endif()
 if(CORAL_HAVE_LIBONIG)
