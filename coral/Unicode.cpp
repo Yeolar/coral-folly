@@ -20,6 +20,8 @@
 #include <coral/Logging.h>
 #include <coral/Utf8StringPiece.h>
 
+#if CORAL_HAVE_LIBICU
+
 //#define U_HIDE_DRAFT_API 1
 
 #ifdef __APPLE__
@@ -30,6 +32,8 @@
 #include <unicode/unistr.h>
 #include <unicode/normlzr.h>
 #include <unicode/translit.h>
+
+#endif
 
 namespace coral {
 
@@ -167,6 +171,8 @@ char32_t utf8ToCodePointUnsafe(const unsigned char* p) {
 
   return cp;
 }
+
+#if CORAL_HAVE_LIBICU
 
 namespace unicode {
 
@@ -671,5 +677,7 @@ std::string asciify(const coral::StringPiece& sp) {
 }
 
 } // namespace unicode
+
+#endif
 
 } // namespace coral

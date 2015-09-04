@@ -524,6 +524,8 @@ void splitLines(const String& input, std::vector<OutputType>& out);
 template<class String, class OutputType>
 void splitLines(const String& input, coral::fbvector<OutputType>& out);
 
+#if CORAL_HAVE_LIBICU
+
 /*
  * Split a string into lines using soft break mode.
  */
@@ -540,6 +542,8 @@ void splitSoftBreakLines(const String& input,
                          size_t width,
                          size_t tabSize,
                          size_t prefixSize = 0);
+
+#endif
 
 /*
  * Join list of tokens.

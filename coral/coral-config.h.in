@@ -20,6 +20,7 @@
 #cmakedefine CORAL_HAVE_LIBEVENT 1
 #cmakedefine CORAL_HAVE_LIBGFLAGS 1
 #cmakedefine CORAL_HAVE_LIBGLOG 1
+#cmakedefine CORAL_HAVE_LIBGMOCK 1
 #cmakedefine CORAL_HAVE_LIBGTEST 1
 #cmakedefine CORAL_HAVE_LIBICU 1
 #cmakedefine CORAL_HAVE_LIBJEMALLOC 1

@@ -1,0 +1,19 @@
+required:
+    libboost-all-dev
+    libdouble-conversion-dev
+    libgflags-dev
+    libgoogle-glog-dev
+    libevent-dev
+    libssl-dev
+
+optional:
+    libjemalloc-dev
+    libicu-dev
+    liblz4-dev
+    liblzma-dev
+    libsnappy-dev
+    zlib1g-dev
+
+test:
+    libgtest-dev
+    google-mock

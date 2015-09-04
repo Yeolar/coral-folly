@@ -39,7 +39,7 @@ foreach(test_src ${CORAL_FUTURES_TEST_SRCS})
     get_filename_component(test ${test_src} NAME_WE)
     add_executable(${test} ${test_src})
     target_link_libraries(${test}
-        gtest gtest_main gmock coral_static)
+        ${GTEST_BOTH_LIBRARIES} ${GMOCK_LIBRARIES} coral_static)
     add_test(coral_${test} ${test} CONFIGURATIONS Debug)
 endforeach()
 

@@ -11,7 +11,6 @@ else()
     set(CMAKE_C_COMPILER gcc)
     set(CMAKE_CXX_COMPILER g++)
 endif()
-set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC")
 
 # Define project
 project(coral)
@@ -52,33 +51,28 @@ set(CORAL_HAVE_BOOST_PROGRAM_OPTIONS ${Boost_PROGRAM_OPTIONS_FOUND})
 set(CORAL_HAVE_BOOST_REGEX ${Boost_REGEX_FOUND})
 set(CORAL_HAVE_BOOST_SYSTEM ${Boost_SYSTEM_FOUND})
 set(CORAL_HAVE_BOOST_THREAD ${Boost_THREAD_FOUND})
-if(APPLE)
-    set(CORAL_LINK_BOOST
-        boost_context_mt boost_filesystem-mt boost_regex-mt boost_system-mt boost_thread-mt)
-else()
-    set(CORAL_LINK_BOOST
-        boost_context boost_filesystem boost_regex boost_system boost_thread)
-endif()
 
-find_package(double-conversion REQUIRED)
-set(CORAL_HAVE_LIBDOUBLE_CONVERSION ${double-conversion_FOUND})
+find_package(DoubleConversion REQUIRED)
+set(CORAL_HAVE_LIBDOUBLE_CONVERSION ${DOUBLE_CONVERSION_FOUND})
 find_package(GFlags REQUIRED)
 set(CORAL_HAVE_LIBGFLAGS ${GFLAGS_FOUND})
-find_package(ICU REQUIRED)
-set(CORAL_HAVE_LIBICU ${ICU_FOUND})
+find_package(Glog REQUIRED)
+set(CORAL_HAVE_LIBGLOG ${GLOG_FOUND})
 # io/async
-find_package(LibEvent)
+find_package(LibEvent REQUIRED)
 set(CORAL_HAVE_LIBEVENT ${LibEvent_FOUND})
-find_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
 set(CORAL_HAVE_LIBSSL ${OPENSSL_FOUND})
 
 # Optional packages
-find_package(Glog)
-set(CORAL_HAVE_LIBGLOG ${GLOG_FOUND})
 find_package(GTest)
 set(CORAL_HAVE_LIBGTEST ${GTEST_FOUND})
+find_package(GMock)
+set(CORAL_HAVE_LIBGMOCK ${GMOCK_FOUND})
 find_package(JeMalloc)
 set(CORAL_HAVE_LIBJEMALLOC ${JEMALLOC_FOUND})
+find_package(ICU)
+set(CORAL_HAVE_LIBICU ${ICU_FOUND})
 find_package(LZ4)
 set(CORAL_HAVE_LIBLZ4 ${LZ4_FOUND})
 find_package(LibLZMA)
@@ -97,27 +91,33 @@ include(CMakeOptions.cmake)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
+add_compile_options(-std=c++11 -fPIC)
+
 # Link libraries
 link_libraries(
-    ${CORAL_LINK_BOOST}
-    double-conversion
-    gflags
-    pthread
-    event
-    ssl
+    ${Boost_LIBRARIES}
+    ${DOUBLE_CONVERSION_LIBRARY}
+    ${GFLAGS_LIBRARIES}
+    ${GLOG_LIBRARIES}
+    ${LIBEVENT_LIB}
+    ${OPENSSL_LIBRARIES}
 )
-if(CORAL_HAVE_LIBGLOG AND CORAL_USE_GLOG)
-    link_libraries(glog)
+#if(CORAL_HAVE_LIBGLOG AND CORAL_USE_GLOG)
+#    link_libraries(${GLOG_LIBRARIES})
+#endif()
+if(CORAL_HAVE_LIBICU)
+    if(APPLE)
+        link_libraries(icucore)
+    else()
+        link_libraries(${ICU_LIBRARIES})
+    endif()
 endif()
 if(CORAL_HAVE_LIBONIG)
-    link_libraries(onig)
+    link_libraries(${ONIGURUMA_LIBRARIES})
 endif()
-
 if(APPLE)
     find_library(MAC_FRAMEWORKS NAMES CoreFoundation)
-    link_libraries(icucore ${MAC_FRAMEWORKS})
-else()
-    link_libraries(${ICU_LIBRARIES})
+    link_libraries(${MAC_FRAMEWORKS})
 endif()
 
 # Check and setup configurations
@@ -335,7 +335,7 @@ install(TARGETS coral_shared
 )
 
 # Test
-if(GTEST_FOUND)
+if(GTEST_FOUND AND GMOCK_FOUND)
     enable_testing()
     add_subdirectory(coral/test)
     add_subdirectory(coral/futures/test)

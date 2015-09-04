@@ -367,6 +367,8 @@ void internalSplitLines(StringPiece sp, OutputIterator out) {
   *out++ = conv(StringPiece(&s[tokenStartPos], tokenSize));
 }
 
+#if CORAL_HAVE_LIBICU
+
 /*
  * For splitSoftBreakLines.
  */
@@ -437,6 +439,8 @@ void internalSplitSoftBreakLines(Utf8StringPiece sp,
     *out++ = conv(StringPiece(&s[begin], sp.size() - begin));
   }
 }
+
+#endif
 
 template<class String> StringPiece prepareDelim(const String& s) {
   return StringPiece(s);
@@ -558,6 +562,8 @@ void splitLines(const String& input, fbvector<OutputType>& out) {
     std::back_inserter(out));
 }
 
+#if CORAL_HAVE_LIBICU
+
 template<class String, class OutputType>
 void splitSoftBreakLines(const String& input,
                          std::vector<OutputType>& out,
@@ -585,6 +591,8 @@ void splitSoftBreakLines(const String& input,
     tabSize,
     prefixSize);
 }
+
+#endif
 
 namespace detail {
 

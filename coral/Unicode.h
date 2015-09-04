@@ -315,6 +315,8 @@ inline char32_t utf8ToCodePoint(const StringPiece& sp) {
   return utf8ToCodePoint(b, e);
 }
 
+#if CORAL_HAVE_LIBICU
+
 namespace unicode {
 
 ///////////////////////////////////////////////////////////////////////////
@@ -454,6 +456,8 @@ std::string asciify(const String& str) {
 }
 
 } // namespace unicode
+
+#endif
 
 ///////////////////////////////////////////////////////////////////////////
 
