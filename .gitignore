@@ -27,6 +27,7 @@
 *.out
 *.app
 
+.idea/
 build_/
 sed-pattern
 coral-config.h
