@@ -27,7 +27,8 @@
 *.out
 *.app
 
-.idea/
-build_/
-sed-pattern
-coral-config.h
+/coral/coral-config.h
+
+/build/
+/build_/
+/sed-pattern

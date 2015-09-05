@@ -10,10 +10,11 @@ set(CORAL_IO_TEST_SRCS
 )
 
 foreach(test_src ${CORAL_IO_TEST_SRCS})
-    get_filename_component(test ${test_src} NAME_WE)
+    get_filename_component(test_name ${test_src} NAME_WE)
+    set(test coral_io_${test_name})
     add_executable(${test} ${test_src})
     target_link_libraries(${test}
         ${GTEST_BOTH_LIBRARIES} ${GMOCK_LIBRARIES} coral_static)
-    add_test(coral_${test} ${test} CONFIGURATIONS Debug)
+    add_test(${test} ${test} CONFIGURATIONS Debug)
 endforeach()
 

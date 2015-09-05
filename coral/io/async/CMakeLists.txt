@@ -47,5 +47,8 @@ install(FILES
 )
 install(FILES
     test/MockAsyncSSLSocket.h
+    test/TimeUtil.h
+    test/UndelayedDestruction.h
+    test/Util.h
     DESTINATION include/coral/io/async/test
 )

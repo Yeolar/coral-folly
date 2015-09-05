@@ -57,12 +57,13 @@ set(CORAL_BASE_TEST_SRCS
 )
 
 foreach(test_src ${CORAL_BASE_TEST_SRCS})
-    get_filename_component(test ${test_src} NAME_WE)
+    get_filename_component(test_name ${test_src} NAME_WE)
+    set(test coral_${test_name})
     add_executable(${test} ${test_src})
     target_link_libraries(${test}
         ${GTEST_BOTH_LIBRARIES} ${GMOCK_LIBRARIES}
         coral_static coral_base_test)
-    add_test(coral_${test} ${test} CONFIGURATIONS Debug)
+    add_test(${test} ${test} CONFIGURATIONS Debug)
 endforeach()
 
 execute_process(
@@ -81,7 +82,8 @@ set(CORAL_BASE_BENCHMARK_SRCS
 )
 
 foreach(bench_src ${CORAL_BASE_BENCHMARK_SRCS})
-    get_filename_component(bench ${bench_src} NAME_WE)
+    get_filename_component(bench_name ${bench_src} NAME_WE)
+    set(bench coral_${bench_name})
     add_executable(${bench} ${bench_src})
     target_link_libraries(${bench} ${GTEST_BOTH_LIBRARIES} coral_static)
 endforeach()

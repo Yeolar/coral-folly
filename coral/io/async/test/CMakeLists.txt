@@ -29,11 +29,12 @@ set(CORAL_IO_ASYNC_TEST_SRCS
 )
 
 foreach(test_src ${CORAL_IO_ASYNC_TEST_SRCS})
-    get_filename_component(test ${test_src} NAME_WE)
+    get_filename_component(test_name ${test_src} NAME_WE)
+    set(test coral_io_async_${test_name})
     add_executable(${test} ${test_src})
     target_link_libraries(${test}
         ${GTEST_BOTH_LIBRARIES} ${GMOCK_LIBRARIES}
         coral_static coral_io_async_test)
-    add_test(coral_${test} ${test} CONFIGURATIONS Debug)
+    add_test(${test} ${test} CONFIGURATIONS Debug)
 endforeach()
 
