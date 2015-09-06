@@ -46,7 +46,10 @@ install(FILES
     DESTINATION include/coral/io/async
 )
 install(FILES
+    test/MockAsyncServerSocket.h
+    test/MockAsyncSocket.h
     test/MockAsyncSSLSocket.h
+    test/MockAsyncTransport.h
     test/TimeUtil.h
     test/UndelayedDestruction.h
     test/Util.h
