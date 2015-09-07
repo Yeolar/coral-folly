@@ -6,7 +6,7 @@ Coral is mainly based on Facebook folly library, but is restructured and customi
 
 ## Dependencies
 
-Coral requires gcc 4.8+ / clang and a version of boost compiled with C++11 support.
+Coral requires gcc 4.8+ / clang 3.3+ and a version of boost compiled with C++11 support.
 
 Coral is built with CMake 2.8.8+, so you also need to install cmake.
 
