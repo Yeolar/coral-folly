@@ -1,4 +1,4 @@
-<!-- This file is generated from the Dex guide by fbcode/coral/facebook/futures-update-readme.sh. -->
+<!-- This file is generated from the Dex guide by fbcode/coral/yeolar/futures-update-readme.sh. -->
 <section class="dex_guide"><h1 class="dex_title">Futures</h1><section class="dex_document"><h1></h1><p class="dex_introduction">Futures is a framework for expressing asynchronous code in C++ using the Promise/Future pattern.</p><h2 id="overview">Overview <a href="#overview" class="headerLink">#</a></h2>
 
 <p>Coral Futures is an async C++ framework inspired by <a href="https://twitter.github.io/finagle/guide/Futures.html" target="_blank">Twitter&#039;s Futures</a> implementation in Scala (see also <a href="https://github.com/twitter/util/blob/master/util-core/src/main/scala/com/twitter/util/Future.scala" target="_blank">Future.scala</a>, <a href="https://github.com/twitter/util/blob/master/util-core/src/main/scala/com/twitter/util/Promise.scala" target="_blank">Promise.scala</a>, and friends), and loosely builds upon the existing but anemic Futures code found in the C++11 standard (<a href="http://en.cppreference.com/w/cpp/thread/future" target="_blank">std::future</a>) and <a href="http://www.boost.org/doc/libs/1_53_0/doc/html/thread/synchronization.html#thread.synchronization.futures" target="_blank">boost::future</a> (especially &gt;= 1.53.0). 
@@ -220,9 +220,9 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 <span class="n">p</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span> <span class="c1">// or setException(...)</span>
 <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">f</span><span class="p">.</span><span class="n">value</span><span class="p">();</span> <span class="c1">// prints 42</span></pre></div>
 
-<p>First, we create a <a href="https://github.com/facebook/coral/blob/master/coral/futures/Promise.h" target="_blank">Promise</a> object of type <tt>int</tt>. This object is exactly what it sounds like&#x2014;a pledge to provide an <tt>int</tt> (or an exception) at some point in the future.</p>
+<p>First, we create a <a href="https://github.com/yeolar/coral/blob/master/coral/futures/Promise.h" target="_blank">Promise</a> object of type <tt>int</tt>. This object is exactly what it sounds like&#x2014;a pledge to provide an <tt>int</tt> (or an exception) at some point in the future.</p>
 
-<p>Next, we extract a <a href="https://github.com/facebook/coral/blob/master/coral/futures/Future.h" target="_blank">Future</a> object from that promise. You can think of futures as handles on promises - they provide a way to access that <tt>int</tt> when the promise is fulfilled.</p>
+<p>Next, we extract a <a href="https://github.com/yeolar/coral/blob/master/coral/futures/Future.h" target="_blank">Future</a> object from that promise. You can think of futures as handles on promises - they provide a way to access that <tt>int</tt> when the promise is fulfilled.</p>
 
 <p>Later, when the promise is fulfilled via <tt>setValue()</tt> or <tt>setException()</tt>, that <tt>int</tt> is accessible via the future&#039;s <tt>value()</tt> method. That method will throw if the future contains an exception.</p>
 
@@ -241,7 +241,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 
 <p>That <tt>then()</tt> method on futures is the real bread and butter of Futures code. It allows you to provide a callback which will be executed when that <tt>Future</tt> is complete. Note that while we fulfill the promise after setting the callback here, those operations could be swapped. Setting a callback on an already completed future executes the callback immediately.</p>
 
-<p>In this case, the callback takes a value directly. If the Future contained an exception, the callback will be passed over and the exception will be propagated to the resultant Future - more on that in a second. Your callback may also take a <a href="https://github.com/facebook/coral/blob/master/coral/futures/Try.h" target="_blank">Try</a>, which encapsulates either an exception or a value of its templated type.</p>
+<p>In this case, the callback takes a value directly. If the Future contained an exception, the callback will be passed over and the exception will be propagated to the resultant Future - more on that in a second. Your callback may also take a <a href="https://github.com/yeolar/coral/blob/master/coral/futures/Try.h" target="_blank">Try</a>, which encapsulates either an exception or a value of its templated type.</p>
 
 <div class="remarkup-code-block" data-code-lang="cpp"><pre class="remarkup-code"><span class="n">f</span><span class="p">.</span><span class="n">then</span><span class="p">([](</span><span class="n">Try</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">){</span>
   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">t</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
@@ -344,7 +344,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 
 <h2 id="sharedpromise">SharedPromise <a href="#sharedpromise" class="headerLink">#</a></h2>
 
-<p><a href="https://github.com/facebook/coral/blob/master/coral/futures/SharedPromise.h" target="_blank">SharedPromise</a> provides the same interface as Promise, but you can extract multiple Futures from it, i.e. you can call <tt>getFuture()</tt> as many times as you&#039;d like. When the SharedPromise is fulfilled, all of the Futures will be called back. Calls to getFuture() after the SharedPromise is fulfilled return a completed Future. If you find yourself constructing collections of Promises and fulfilling them simultaneously with the same value, consider this utility instead. Likewise, if you find yourself in need of setting multiple callbacks on the same Future (which is indefinitely unsupported), consider refactoring to use SharedPromise to &quot;split&quot; the Future.</p></section><section class="dex_document"><h1>Error Handling</h1><p class="dex_introduction">Asynchronous code can't employ try/catch exception handling universally, so Futures provides facilities to make error handling as easy and natural as possible. Here's an overview.</p><h2 id="throwing-exceptions">Throwing Exceptions <a href="#throwing-exceptions" class="headerLink">#</a></h2>
+<p><a href="https://github.com/yeolar/coral/blob/master/coral/futures/SharedPromise.h" target="_blank">SharedPromise</a> provides the same interface as Promise, but you can extract multiple Futures from it, i.e. you can call <tt>getFuture()</tt> as many times as you&#039;d like. When the SharedPromise is fulfilled, all of the Futures will be called back. Calls to getFuture() after the SharedPromise is fulfilled return a completed Future. If you find yourself constructing collections of Promises and fulfilling them simultaneously with the same value, consider this utility instead. Likewise, if you find yourself in need of setting multiple callbacks on the same Future (which is indefinitely unsupported), consider refactoring to use SharedPromise to &quot;split&quot; the Future.</p></section><section class="dex_document"><h1>Error Handling</h1><p class="dex_introduction">Asynchronous code can't employ try/catch exception handling universally, so Futures provides facilities to make error handling as easy and natural as possible. Here's an overview.</p><h2 id="throwing-exceptions">Throwing Exceptions <a href="#throwing-exceptions" class="headerLink">#</a></h2>
 
 <p>There are several ways to introduce exceptions into your Futures flow. First, <tt>makeFuture&lt;T&gt;()</tt> and <tt>Promise&lt;T&gt;::setException()</tt> can create a failed future from any <tt>std::exception</tt>, from a <tt>coral::exception_wrapper</tt>, or from an <tt>std::exception_ptr</tt> (deprecated):</p>
 
@@ -611,11 +611,11 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
   <span class="c1">// ...</span>
 <span class="p">});</span></pre></div>
 
-<p>See the <tt>reduce()</tt> tests in <a href="https://github.com/facebook/coral/blob/master/coral/futures/test/FutureTest.cpp" target="_blank">the Future tests</a> for a more complete catalog of possibilities.</p>
+<p>See the <tt>reduce()</tt> tests in <a href="https://github.com/yeolar/coral/blob/master/coral/futures/test/FutureTest.cpp" target="_blank">the Future tests</a> for a more complete catalog of possibilities.</p>
 
 <h2 id="unorderedreduce">unorderedReduce() <a href="#unorderedreduce" class="headerLink">#</a></h2>
 
-<p>Like <tt>reduce()</tt>, but consumes Futures in the collection as soon as they become ready. Use this if your function doesn&#039;t depend on the order of the Futures in the input collection. See the <a href="https://github.com/facebook/coral/blob/master/coral/futures/test/FutureTest.cpp#L1810" target="_blank">tests</a> for examples.</p>
+<p>Like <tt>reduce()</tt>, but consumes Futures in the collection as soon as they become ready. Use this if your function doesn&#039;t depend on the order of the Futures in the input collection. See the <a href="https://github.com/yeolar/coral/blob/master/coral/futures/test/FutureTest.cpp#L1810" target="_blank">tests</a> for examples.</p>
 
 <h2 id="window">window() <a href="#window" class="headerLink">#</a></h2>
 
@@ -623,7 +623,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 
 <p>It ensures that at any given time, no more than <tt>n</tt> Futures are being processed.</p>
 
-<p>Combine with <tt>collectAll</tt>, <tt>reduce</tt> or <tt>unorderedReduce</tt>. See the <a href="https://github.com/facebook/coral/blob/master/coral/futures/test/FutureTest.cpp#L693" target="_blank">tests</a> for examples.</p>
+<p>Combine with <tt>collectAll</tt>, <tt>reduce</tt> or <tt>unorderedReduce</tt>. See the <a href="https://github.com/yeolar/coral/blob/master/coral/futures/test/FutureTest.cpp#L693" target="_blank">tests</a> for examples.</p>
 
 <h2 id="other-possibilities">Other Possibilities <a href="#other-possibilities" class="headerLink">#</a></h2>
 
@@ -652,7 +652,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 
 <h2 id="via-to-the-rescue">via() to the rescue <a href="#via-to-the-rescue" class="headerLink">#</a></h2>
 
-<p>Futures have a method called <tt>via()</tt> which takes an <a href="https://github.com/facebook/coral/blob/master/coral/Executor.h#L27" target="_blank">Executor</a>. Executor is a simple interface that requires only the existence of an <tt>add(std::function&lt;void()&gt; func)</tt> method which must be thread safe and must execute the provided function somehow, though not necessarily immediately. <tt>via()</tt> guarantees that a callback set on the Future will be executed on the given Executor. For instance:</p>
+<p>Futures have a method called <tt>via()</tt> which takes an <a href="https://github.com/yeolar/coral/blob/master/coral/Executor.h#L27" target="_blank">Executor</a>. Executor is a simple interface that requires only the existence of an <tt>add(std::function&lt;void()&gt; func)</tt> method which must be thread safe and must execute the provided function somehow, though not necessarily immediately. <tt>via()</tt> guarantees that a callback set on the Future will be executed on the given Executor. For instance:</p>
 
 <div class="remarkup-code-block" data-code-lang="cpp"><pre class="remarkup-code"><span class="n">makeFutureWith</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
   <span class="p">.</span><span class="n">via</span><span class="p">(</span><span class="n">exe1</span><span class="p">).</span><span class="n">then</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -674,28 +674,28 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 <p><tt>via()</tt> wouldn&#039;t be of much use without practical implementations around. We have a handful, and here&#039;s a (possibly incomplete) list.</p>
 
 <ul>
-<li><a href="https://github.com/facebook/wangle/blob/master/wangle/concurrent/ThreadPoolExecutor.h" target="_blank">ThreadPoolExecutor</a> is an abstract thread pool implementation that supports resizing, custom thread factories, pool and per-task stats, NUMA awareness, user-defined task expiration, and Codel task expiration. It and its subclasses are under active development. It currently has two implementations:<ul>
-<li><a href="https://github.com/facebook/wangle/blob/master/wangle/concurrent/CPUThreadPoolExecutor.h" target="_blank">CPUThreadPoolExecutor</a> is a general purpose thread pool. In addition to the above features, it also supports task priorities.</li>
-<li><a href="https://github.com/facebook/wangle/blob/master/wangle/concurrent/IOThreadPoolExecutor.h" target="_blank">IOThreadPoolExecutor</a> is similar to CPUThreadPoolExecutor, but each thread spins on an EventBase (accessible to callbacks via <a href="https://github.com/facebook/coral/blob/master/coral/io/async/EventBaseManager.h" target="_blank">EventBaseManager</a>)</li>
+<li><a href="https://github.com/yeolar/wangle/blob/master/wangle/concurrent/ThreadPoolExecutor.h" target="_blank">ThreadPoolExecutor</a> is an abstract thread pool implementation that supports resizing, custom thread factories, pool and per-task stats, NUMA awareness, user-defined task expiration, and Codel task expiration. It and its subclasses are under active development. It currently has two implementations:<ul>
+<li><a href="https://github.com/yeolar/wangle/blob/master/wangle/concurrent/CPUThreadPoolExecutor.h" target="_blank">CPUThreadPoolExecutor</a> is a general purpose thread pool. In addition to the above features, it also supports task priorities.</li>
+<li><a href="https://github.com/yeolar/wangle/blob/master/wangle/concurrent/IOThreadPoolExecutor.h" target="_blank">IOThreadPoolExecutor</a> is similar to CPUThreadPoolExecutor, but each thread spins on an EventBase (accessible to callbacks via <a href="https://github.com/yeolar/coral/blob/master/coral/io/async/EventBaseManager.h" target="_blank">EventBaseManager</a>)</li>
 </ul></li>
-<li>coral&#039;s <a href="https://github.com/facebook/coral/blob/master/coral/io/async/EventBase.h" target="_blank">EventBase</a> is an Executor and executes work as a callback in the event loop</li>
-<li><a href="https://github.com/facebook/coral/blob/master/coral/futures/ManualExecutor.h" target="_blank">ManualExecutor</a> only executes work when manually cranked. This is useful for testing.</li>
-<li><a href="https://github.com/facebook/coral/blob/master/coral/futures/InlineExecutor.h" target="_blank">InlineExecutor</a> executes work immediately inline</li>
-<li><a href="https://github.com/facebook/coral/blob/master/coral/futures/QueuedImmediateExecutor.h" target="_blank">QueuedImmediateExecutor</a> is similar to InlineExecutor, but work added during callback execution will be queued instead of immediately executed</li>
-<li><a href="https://github.com/facebook/coral/blob/master/coral/futures/ScheduledExecutor.h" target="_blank">ScheduledExecutor</a> is a subinterface of Executor that supports scheduled (i.e. delayed) execution. There aren&#039;t many implementations yet, see <a class="remarkup-task" href="https://our.intern.facebook.com/intern/tasks/?t=5924392" target="_blank">T5924392</a></li>
+<li>coral&#039;s <a href="https://github.com/yeolar/coral/blob/master/coral/io/async/EventBase.h" target="_blank">EventBase</a> is an Executor and executes work as a callback in the event loop</li>
+<li><a href="https://github.com/yeolar/coral/blob/master/coral/futures/ManualExecutor.h" target="_blank">ManualExecutor</a> only executes work when manually cranked. This is useful for testing.</li>
+<li><a href="https://github.com/yeolar/coral/blob/master/coral/futures/InlineExecutor.h" target="_blank">InlineExecutor</a> executes work immediately inline</li>
+<li><a href="https://github.com/yeolar/coral/blob/master/coral/futures/QueuedImmediateExecutor.h" target="_blank">QueuedImmediateExecutor</a> is similar to InlineExecutor, but work added during callback execution will be queued instead of immediately executed</li>
+<li><a href="https://github.com/yeolar/coral/blob/master/coral/futures/ScheduledExecutor.h" target="_blank">ScheduledExecutor</a> is a subinterface of Executor that supports scheduled (i.e. delayed) execution. There aren&#039;t many implementations yet, see <a class="remarkup-task" href="https://our.intern.facebook.com/intern/tasks/?t=5924392" target="_blank">T5924392</a></li>
 <li>Thrift&#039;s <a href="https://github.com/facebook/fbthrift/blob/master/thrift/lib/cpp/concurrency/ThreadManager.h" target="_blank">ThreadManager</a> is an Executor but we aim to deprecate it in favor of the aforementioned CPUThreadPoolExecutor</li>
-<li><a href="https://github.com/facebook/wangle/blob/master/wangle/concurrent/FutureExecutor.h" target="_blank">FutureExecutor</a> wraps another Executor and provides <tt>Future&lt;T&gt; addFuture(F func)</tt> which returns a Future representing the result of func. This is equivalent to <tt>futures::async(executor, func)</tt> and the latter should probably be preferred.</li>
+<li><a href="https://github.com/yeolar/wangle/blob/master/wangle/concurrent/FutureExecutor.h" target="_blank">FutureExecutor</a> wraps another Executor and provides <tt>Future&lt;T&gt; addFuture(F func)</tt> which returns a Future representing the result of func. This is equivalent to <tt>futures::async(executor, func)</tt> and the latter should probably be preferred.</li>
 </ul></section><section class="dex_document"><h1>Timeouts and related features</h1><p class="dex_introduction">Futures provide a number of timing-related features. Here's an overview.</p><h2 id="timing-implementation">Timing implementation <a href="#timing-implementation" class="headerLink">#</a></h2>
 
 <h3 id="timing-resolution">Timing resolution <a href="#timing-resolution" class="headerLink">#</a></h3>
 
-<p>The functions and methods documented below all take a <tt>Duration</tt>, <a href="https://github.com/facebook/coral/blob/master/coral/futures/detail/Types.h" target="_blank">which is an alias for <tt>std::chrono::milliseconds</tt></a>. Why not allow more granularity? Simply put, we can&#039;t guarantee sub-millisecond resolution and we don&#039;t want to lie to you.</p>
+<p>The functions and methods documented below all take a <tt>Duration</tt>, <a href="https://github.com/yeolar/coral/blob/master/coral/futures/detail/Types.h" target="_blank">which is an alias for <tt>std::chrono::milliseconds</tt></a>. Why not allow more granularity? Simply put, we can&#039;t guarantee sub-millisecond resolution and we don&#039;t want to lie to you.</p>
 
 <p>Do not use the <tt>Duration</tt> type directly, that defeats the point of using a <tt>std::chrono::duration</tt> type. Rather, use the appropriate <tt>std::chrono::duration</tt>, e.g. <tt>std::chrono::seconds</tt> or <tt>std::chrono::milliseconds</tt>.</p>
 
 <h3 id="the-timekeeper-interface">The TimeKeeper interface <a href="#the-timekeeper-interface" class="headerLink">#</a></h3>
 
-<p>Most timing-related methods also optionally take a <a href="https://github.com/facebook/coral/blob/master/coral/futures/Timekeeper.h#L44" target="_blank"><tt>TimeKeeper</tt></a>. Implement that interface if you&#039;d like control over how Futures timing works under the hood. If you don&#039;t provide a <tt>TimeKeeper</tt>, a default singleton will be lazily created and employed. The <a href="https://github.com/facebook/coral/blob/master/coral/futures/detail/ThreadWheelTimekeeper.h" target="_blank">default implementation</a> uses a coral::HHWheelTimer in a dedicated EventBase thread to manage timeouts.</p>
+<p>Most timing-related methods also optionally take a <a href="https://github.com/yeolar/coral/blob/master/coral/futures/Timekeeper.h#L44" target="_blank"><tt>TimeKeeper</tt></a>. Implement that interface if you&#039;d like control over how Futures timing works under the hood. If you don&#039;t provide a <tt>TimeKeeper</tt>, a default singleton will be lazily created and employed. The <a href="https://github.com/yeolar/coral/blob/master/coral/futures/detail/ThreadWheelTimekeeper.h" target="_blank">default implementation</a> uses a coral::HHWheelTimer in a dedicated EventBase thread to manage timeouts.</p>
 
 <h2 id="within">within() <a href="#within" class="headerLink">#</a></h2>
 
@@ -805,7 +805,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 <div class="remarkup-code-block" data-code-lang="cpp"><pre class="remarkup-code"><span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">isPrime</span><span class="p">(</span><span class="mi">7</span><span class="p">).</span><span class="n">value</span><span class="p">());</span>
 <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">isPrime</span><span class="p">(</span><span class="mi">8</span><span class="p">).</span><span class="n">value</span><span class="p">());</span></pre></div>
 
-<p>But what if <tt>isPrime()</tt> is asynchronous (e.g. makes an async call to another service that computes primeness)? It&#039;s now likely that you&#039;ll call <tt>value()</tt> before the Future is complete, which will throw a <a href="https://github.com/facebook/coral/blob/master/coral/futures/FutureException.h#L66" target="_blank"><tt>FutureNotReady</tt></a> exception.</p>
+<p>But what if <tt>isPrime()</tt> is asynchronous (e.g. makes an async call to another service that computes primeness)? It&#039;s now likely that you&#039;ll call <tt>value()</tt> before the Future is complete, which will throw a <a href="https://github.com/yeolar/coral/blob/master/coral/futures/FutureException.h#L66" target="_blank"><tt>FutureNotReady</tt></a> exception.</p>
 
 <p>A naive approach is to spin until the Future is complete:</p>
 
@@ -836,7 +836,7 @@ Although inspired by the C++11 std::future interface, it is not a drop-in replac
 
 <h3 id="getvia-and-waitvia">getVia() and waitVia() <a href="#getvia-and-waitvia" class="headerLink">#</a></h3>
 
-<p><tt>T Future&lt;T&gt;::getVia(DrivableExecutor*)</tt> and <tt>Future&lt;T&gt; Future&lt;T&gt;::waitVia(DrivableExecutor*)</tt> have the same semantics as <tt>get()</tt> and <tt>wait()</tt> except that they drive some Executor until the Future is complete. <a href="https://github.com/facebook/coral/blob/master/coral/futures/DrivableExecutor.h" target="_blank"><tt>DrivableExecutor</tt></a> is a simple subinterface of <tt>Executor</tt> that requires the presence of a method <tt>drive()</tt> which can somehow make progress on the Executor&#039;s work. Two commonly helpful implementations are <a href="https://github.com/facebook/coral/blob/master/coral/io/async/EventBase.h" target="_blank"><tt>EventBase</tt></a> (where <tt>drive()</tt> loops on the EventBase) and <a href="https://github.com/facebook/coral/blob/master/coral/futures/ManualExecutor.h" target="_blank"><tt>ManualExecutor</tt></a>. These are simple but useful sugar for the following common pattern:</p>
+<p><tt>T Future&lt;T&gt;::getVia(DrivableExecutor*)</tt> and <tt>Future&lt;T&gt; Future&lt;T&gt;::waitVia(DrivableExecutor*)</tt> have the same semantics as <tt>get()</tt> and <tt>wait()</tt> except that they drive some Executor until the Future is complete. <a href="https://github.com/yeolar/coral/blob/master/coral/futures/DrivableExecutor.h" target="_blank"><tt>DrivableExecutor</tt></a> is a simple subinterface of <tt>Executor</tt> that requires the presence of a method <tt>drive()</tt> which can somehow make progress on the Executor&#039;s work. Two commonly helpful implementations are <a href="https://github.com/yeolar/coral/blob/master/coral/io/async/EventBase.h" target="_blank"><tt>EventBase</tt></a> (where <tt>drive()</tt> loops on the EventBase) and <a href="https://github.com/yeolar/coral/blob/master/coral/futures/ManualExecutor.h" target="_blank"><tt>ManualExecutor</tt></a>. These are simple but useful sugar for the following common pattern:</p>
 
 <p>Given this:</p>
 
@@ -1072,7 +1072,7 @@ The three laws refer to a different formulation of the axioms, in terms of the K
 
 <p>People mean two things here, they either mean using continuations (as in CSP) or they mean using generators which require continuations. It&#039;s important to know those are two distinct questions, but in our context the answer is the same because continuations are a prerequisite for generators.</p>
 
-<p>C++ doesn&#039;t directly support continuations very well. But there are some ways to do them in C/C++ that rely on some rather low-level facilities like <tt>setjmp</tt> and <tt>longjmp</tt> (among others). So yes, they are possible (cf. <a href="https://github.com/ccutrer/mordor" target="_blank">Mordor</a> and <a href="https://github.com/facebook/coral/tree/master/coral/experimental/fibers" target="_blank">coral/experimental/fibers</a>).</p>
+<p>C++ doesn&#039;t directly support continuations very well. But there are some ways to do them in C/C++ that rely on some rather low-level facilities like <tt>setjmp</tt> and <tt>longjmp</tt> (among others). So yes, they are possible (cf. <a href="https://github.com/ccutrer/mordor" target="_blank">Mordor</a> and <a href="https://github.com/yeolar/coral/tree/master/coral/experimental/fibers" target="_blank">coral/experimental/fibers</a>).</p>
 
 <p>The tradeoff is memory. Each continuation has a stack, and that stack is usually fixed-size and has to be big enough to support whatever ordinary computation you might want to do on it. So each living continuation requires a relatively large amount of memory. If you know the number of continuations will be small, this might be a good fit. In particular, it might be faster, the code might read cleaner, and debugging stack traces might be much easier.</p>
 
