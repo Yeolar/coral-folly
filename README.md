@@ -1,18 +1,18 @@
-# Coral
+# Coral-Folly
 
-Coral is a C++11 foundation and network library.
+Coral-Folly is a C++11 foundation and network library.
 
-Coral is mainly based on Facebook folly library, but is restructured and customized with some extensions.
+Coral-Folly is mainly based on Facebook folly library, but is customized with some extensions.
 
 ## Dependencies
 
-Coral requires gcc 4.8+ / clang 3.3+ and a version of boost compiled with C++11 support.
+Coral-Folly requires gcc 4.8+ / clang 3.3+ and a version of boost compiled with C++11 support.
 
-Coral is built with CMake 2.8.8+, so you also need to install cmake.
+Coral-Folly is built with CMake 2.8.8+, so you also need to install cmake.
 
 ### Debian 8
 
-Coral is full tested on Debian 8.  Please install the dependencies below:
+Coral-Folly is full tested on Debian 8.  Please install the dependencies below:
 
 Required:
 
@@ -20,6 +20,9 @@ Required:
 - libdouble-conversion-dev
 - libgflags-dev
 - libgoogle-glog-dev
+- libunwind-dev
+- libaio-dev
+- libdwarf-dev
 - libevent-dev
 - libssl-dev
 
@@ -51,13 +54,13 @@ Test is also optional, if not installed, test step is just skipped.  Installatio
 
 ### Mac OS X
 
-Coral is also compiled pass on Mac OS X.
+Coral-Folly is also compiled pass on Mac OS X.
 
 On Mac, you can install the requirements with Homwbrew or MacPorts, or manually.
 
 ### Other Linux distributions
 
-Coral should be compatible on other Linux.  For dependencies refer Debian.
+Coral-Folly should be compatible on other Linux.  For dependencies refer Debian.
 
 ## Installation
 
