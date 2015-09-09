@@ -21,11 +21,6 @@
 
 namespace folly {
 
-std::ostream& operator<<(std::ostream& os, const byte_string& str) {
-  os.write((const char*)str.data(), str.size());
-  return os;
-}
-
 std::ostream& operator<<(std::ostream& os, const StringVec& vec) {
   if (vec.empty()) {
     return os << "[]";

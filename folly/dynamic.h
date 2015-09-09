@@ -1,4 +1,5 @@
 /*
+ * Copyright 2015 Yeolar
  * Copyright 2015 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,8 +77,33 @@
 #include <boost/operators.hpp>
 
 #include <folly/FBString.h>
+#include <folly/Hash.h>
 #include <folly/Range.h>
 #include <folly/Traits.h>
+
+#if FOLLY_DYNAMIC_EXTEND_DATA
+
+namespace folly {
+
+typedef std::basic_string<unsigned char> byte_string;
+
+inline std::ostream& operator<<(std::ostream& os, const byte_string& str) {
+  os.write((const char*)str.data(), str.size());
+  return os;
+}
+
+} // folly
+
+namespace std {
+  template <>
+  struct hash<folly::byte_string> {
+    size_t operator()(const folly::byte_string& s) const {
+      return folly::hash::fnv32_buf(s.data(), s.size());
+    }
+  };
+} // namespace std
+
+#endif
 
 namespace folly {
 
@@ -97,6 +123,9 @@ struct dynamic : private boost::operators<dynamic> {
     INT64,
     OBJECT,
     STRING,
+#if FOLLY_DYNAMIC_EXTEND_DATA
+    DATA,
+#endif
   };
 
   /*
@@ -150,6 +179,16 @@ public:
   /* implicit */ dynamic(std::string const& val);
   /* implicit */ dynamic(fbstring const& val);
   /* implicit */ dynamic(fbstring&& val);
+
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  /*
+   * Data compatibility constructors.
+   */
+  /* implicit */ dynamic(ByteRange val);
+  /* implicit */ dynamic(unsigned char const* val);
+  /* implicit */ dynamic(byte_string const& val);
+  /* implicit */ dynamic(byte_string&& val);
+#endif
 
   /*
    * This is part of the plumbing for object(), above.  Used to create
@@ -242,6 +281,9 @@ public:
    * Returns true if this dynamic is of the specified type.
    */
   bool isString() const;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  bool isData() const;
+#endif
   bool isObject() const;
   bool isBool() const;
   bool isNull() const;
@@ -274,6 +316,9 @@ public:
    * dynamic.
    */
   fbstring asString() const;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  byte_string asData() const;
+#endif
   double   asDouble() const;
   int64_t  asInt() const;
   bool     asBool() const;
@@ -284,14 +329,23 @@ public:
    * These will throw a TypeError if the dynamic has a different type.
    */
   const fbstring& getString() const&;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  const byte_string& getData() const&;
+#endif
   double          getDouble() const&;
   int64_t         getInt() const&;
   bool            getBool() const&;
   fbstring& getString() &;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  byte_string& getData() &;
+#endif
   double&   getDouble() &;
   int64_t&  getInt() &;
   bool&     getBool() &;
   fbstring getString() &&;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  byte_string getData() &&;
+#endif
   double   getDouble() &&;
   int64_t  getInt() &&;
   bool     getBool() &&;
@@ -307,6 +361,18 @@ public:
   const char* c_str() const&;
   const char* c_str() && = delete;
   StringPiece stringPiece() const;
+
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  /*
+   * It is occasionally useful to access a data's internal pointer
+   * directly, without the type conversion of `asData()`.
+   *
+   * These will throw a TypeError if the dynamic is not a data.
+   */
+  const unsigned char* byte_data()  const&;
+  const unsigned char* byte_data()  && = delete;
+  ByteRange byteRange() const;
+#endif
 
   /*
    * Returns: true if this dynamic is null, an empty array, an empty
@@ -418,6 +484,33 @@ public:
   dynamic& setDefault(K&& k, V&& v = dynamic::object);
 
   /*
+   * Only defined for objects, throws TypeError otherwise.
+   *
+   * get is similiar with getDefault, but use return bool value to represent
+   * value found or not.
+   */
+  bool get(const dynamic& k, dynamic& v) const;
+  bool get(const dynamic& k, fbstring& v) const;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  bool get(const dynamic& k, byte_string& v) const;
+#endif
+  bool get(const dynamic& k, double& v) const;
+  bool get(const dynamic& k, int64_t& v) const;
+  bool get(const dynamic& k, bool& v) const;
+
+  /*
+   * Works for objects. kpath format: key.key...
+   */
+  bool getByKeyPath(const StringPiece& kpath, dynamic& v) const;
+  bool getByKeyPath(const StringPiece& kpath, fbstring& v) const;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  bool getByKeyPath(const StringPiece& kpath, byte_string& v) const;
+#endif
+  bool getByKeyPath(const StringPiece& kpath, double& v) const;
+  bool getByKeyPath(const StringPiece& kpath, int64_t& v) const;
+  bool getByKeyPath(const StringPiece& kpath, bool& v) const;
+
+  /*
    * Resizes an array so it has at n elements, using the supplied
    * default to fill new elements.  Throws TypeError if this dynamic
    * is not an array.
@@ -511,7 +604,18 @@ private:
   template<class T> T*       getAddress() noexcept;
   template<class T> T const* getAddress() const noexcept;
 
+#if FOLLY_DYNAMIC_EXTEND_DATA
+  template<class T>
+  typename std::enable_if<
+    !std::is_same<T, byte_string>::value, T>::type
+  asImpl() const;
+  template<class T>
+  typename std::enable_if<
+    std::is_same<T, byte_string>::value, T>::type
+  asImpl() const;
+#else
   template<class T> T asImpl() const;
+#endif
 
   static char const* typeName(Type);
   void destroy() noexcept;
@@ -532,6 +636,9 @@ private:
     double doubl;
     int64_t integer;
     fbstring string;
+#if FOLLY_DYNAMIC_EXTEND_DATA
+    byte_string data;
+#endif
 
     /*
      * Objects are placement new'd here.  We have to use a char buffer

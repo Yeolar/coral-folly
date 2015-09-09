@@ -22,30 +22,17 @@
 #include <set>
 #include <map>
 
-#include <folly/Hash.h>
-
 namespace folly {
 
-typedef std::basic_string<unsigned char> byte_string;
 typedef std::vector<std::string> StringVec;
 typedef std::set<std::string> StringSet;
 typedef std::map<std::string, std::string> StringMap;
 
-std::ostream& operator<<(std::ostream& os, const byte_string& str);
 std::ostream& operator<<(std::ostream& os, const StringVec& vec);
 std::ostream& operator<<(std::ostream& os, const StringSet& set);
 std::ostream& operator<<(std::ostream& os, const StringMap& map);
 
 } // namespace folly
-
-namespace std {
-  template <>
-  struct hash<folly::byte_string> {
-    size_t operator()(const folly::byte_string& s) const {
-      return folly::hash::fnv32_buf(s.data(), s.size());
-    }
-  };
-} // namespace std
 
 #endif /* FOLLY_EXT_TYPE_DEF_H_ */
 
