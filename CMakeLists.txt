@@ -314,6 +314,9 @@ add_subdirectory(folly/experimental/exception_tracer)
 add_subdirectory(folly/experimental/fibers)
 add_subdirectory(folly/experimental/io)
 add_subdirectory(folly/experimental/symbolizer)
+add_subdirectory(folly/ext)
+add_subdirectory(folly/ext/io)
+add_subdirectory(folly/ext/platform)
 add_subdirectory(folly/futures)
 add_subdirectory(folly/io)
 add_subdirectory(folly/io/async)
@@ -327,6 +330,8 @@ add_library(folly_static STATIC
     $<TARGET_OBJECTS:folly_experimental_fibers>
     $<TARGET_OBJECTS:folly_experimental_io>
     $<TARGET_OBJECTS:folly_experimental_symbolizer>
+    $<TARGET_OBJECTS:folly_ext>
+    $<TARGET_OBJECTS:folly_ext_io>
     $<TARGET_OBJECTS:folly_futures>
     $<TARGET_OBJECTS:folly_io>
     $<TARGET_OBJECTS:folly_io_async>
@@ -340,6 +345,8 @@ add_library(folly_shared SHARED
     $<TARGET_OBJECTS:folly_experimental_fibers>
     $<TARGET_OBJECTS:folly_experimental_io>
     $<TARGET_OBJECTS:folly_experimental_symbolizer>
+    $<TARGET_OBJECTS:folly_ext>
+    $<TARGET_OBJECTS:folly_ext_io>
     $<TARGET_OBJECTS:folly_futures>
     $<TARGET_OBJECTS:folly_io>
     $<TARGET_OBJECTS:folly_io_async>
