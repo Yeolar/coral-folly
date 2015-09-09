@@ -4,6 +4,12 @@ Coral-Folly is a C++11 foundation and network library.
 
 Coral-Folly is mainly based on Facebook folly library, but is customized with some extensions.
 
+The differences between coral-folly and facebook folly are:
+
+- built with CMake.
+- an extended dynamic class, append DATA type, see dynamic.h
+- some extensions appended, they are put under folly/ext/
+
 ## Dependencies
 
 Coral-Folly requires gcc 4.8+ / clang 3.3+ and a version of boost compiled with C++11 support.
