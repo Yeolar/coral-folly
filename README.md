@@ -29,6 +29,10 @@ Required:
 - libunwind-dev
 - libaio-dev
 - libdwarf-dev
+- liblz4-dev
+- liblzma-dev
+- libsnappy-dev
+- zlib1g-dev
 - libevent-dev
 - libssl-dev
 
@@ -36,11 +40,7 @@ Optional:
 
 - libjemalloc-dev
 - libicu-dev
-- liblz4-dev
-- liblzma-dev
 - libonig-dev (prefer https://github.com/k-takata/Onigmo)
-- libsnappy-dev
-- zlib1g-dev
 
 Test:
 
