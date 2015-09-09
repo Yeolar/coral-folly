@@ -4,6 +4,6 @@
 
 install(FILES
     mac/CFTypeWrapper.h
-    DESTINATION include/coral/platform/mac
+    DESTINATION include/folly/ext/platform/mac
 )
 
