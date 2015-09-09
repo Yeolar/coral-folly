@@ -1,0 +1,123 @@
+#ifndef FOLLY_CONFIG_H_
+#define FOLLY_CONFIG_H_
+
+/* meta */
+
+#define FOLLY_PACKAGE "@PROJECT_NAME@"
+#define FOLLY_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_MICRO@"
+
+/* library */
+
+#cmakedefine FOLLY_HAVE_BOOST
+#cmakedefine FOLLY_HAVE_BOOST_CONTEXT
+#cmakedefine FOLLY_HAVE_BOOST_FILESYSTEM
+#cmakedefine FOLLY_HAVE_BOOST_PROGRAM_OPTIONS
+#cmakedefine FOLLY_HAVE_BOOST_REGEX
+#cmakedefine FOLLY_HAVE_BOOST_SYSTEM
+#cmakedefine FOLLY_HAVE_BOOST_THREAD
+
+#cmakedefine FOLLY_HAVE_LIBAIO 1
+#cmakedefine FOLLY_HAVE_LIBDOUBLE_CONVERSION 1
+#cmakedefine FOLLY_HAVE_LIBDWARF 1
+#cmakedefine FOLLY_HAVE_LIBEVENT 1
+#cmakedefine FOLLY_HAVE_LIBGFLAGS 1
+#cmakedefine FOLLY_HAVE_LIBGLOG 1
+#cmakedefine FOLLY_HAVE_LIBGMOCK 1
+#cmakedefine FOLLY_HAVE_LIBGTEST 1
+#cmakedefine FOLLY_HAVE_LIBICU 1
+#cmakedefine FOLLY_HAVE_LIBJEMALLOC 1
+#cmakedefine FOLLY_HAVE_LIBLZ4 1
+#cmakedefine FOLLY_HAVE_LIBLZMA 1
+#cmakedefine FOLLY_HAVE_LIBONIG 1
+#cmakedefine FOLLY_HAVE_LIBSNAPPY 1
+#cmakedefine FOLLY_HAVE_LIBSSL 1
+#cmakedefine FOLLY_HAVE_LIBUNWIND 1
+#cmakedefine FOLLY_HAVE_LIBZ 1
+
+/* header */
+
+#cmakedefine FOLLY_HAVE_BYTESWAP_H 1
+#cmakedefine FOLLY_HAVE_DLFCN_H 1
+#cmakedefine FOLLY_HAVE_EMMINTRIN_H 1
+#cmakedefine FOLLY_HAVE_FCNTL_H 1
+#cmakedefine FOLLY_HAVE_FEATURES_H 1
+#cmakedefine FOLLY_HAVE_INTTYPES_H 1
+#cmakedefine FOLLY_HAVE_LIMITS_H 1
+#cmakedefine FOLLY_HAVE_MALLOC_H 1
+#cmakedefine FOLLY_HAVE_MEMORY_H 1
+#cmakedefine FOLLY_HAVE_MUTEX_H 1
+#cmakedefine FOLLY_HAVE_STDBOOL_H 1
+#cmakedefine FOLLY_HAVE_STDINT_H 1
+#cmakedefine FOLLY_HAVE_STDLIB_H 1
+#cmakedefine FOLLY_HAVE_STRING_H 1
+#cmakedefine FOLLY_HAVE_STRINGS_H 1
+#cmakedefine FOLLY_HAVE_UNISTD_H 1
+#cmakedefine FOLLY_HAVE_BITS_C__CONFIG_H 1
+#cmakedefine FOLLY_HAVE_BITS_FUNCTEXCEPT_H 1
+#cmakedefine FOLLY_HAVE_SYS_STAT_H 1
+#cmakedefine FOLLY_HAVE_SYS_TIME_H 1
+#cmakedefine FOLLY_HAVE_SYS_TYPES_H 1
+
+/* type */
+
+#cmakedefine FOLLY_HAVE_INT128_T 1
+#cmakedefine FOLLY_HAVE_PTHREAD_SPINLOCK_T 1
+#cmakedefine FOLLY_HAVE_PTRDIFF_T 1
+
+/* function */
+
+#cmakedefine FOLLY_HAVE_GETDELIM 1
+#cmakedefine FOLLY_HAVE_GETTIMEOFDAY 1
+#cmakedefine FOLLY_HAVE_MALLOC_SIZE 1
+#cmakedefine FOLLY_HAVE_MALLOC_USABLE_SIZE 1
+#cmakedefine FOLLY_HAVE_MEMMOVE 1
+#cmakedefine FOLLY_HAVE_MEMRCHR 1
+#cmakedefine FOLLY_HAVE_MEMSET 1
+#cmakedefine FOLLY_HAVE_PIPE2 1
+#cmakedefine FOLLY_HAVE_STRERROR 1
+
+#cmakedefine FOLLY_HAVE_CPLUS_DEMANGLE_V3_CALLBACK 1
+#cmakedefine FOLLY_HAVE_POW 1
+#cmakedefine FOLLY_HAVE_PTHREAD_ATFORK 1
+#cmakedefine FOLLY_HAVE_PTHREAD_YIELD 1
+#cmakedefine FOLLY_HAVE_CLOCK_GETTIME 1
+
+#cmakedefine FOLLY_HAVE_SCHED_H 1
+#cmakedefine FOLLY_HAVE_SCHED_YIELD 1
+
+/* compile tests for keyword, lib, function, ... */
+
+#cmakedefine FOLLY_FINAL final
+#cmakedefine FOLLY_OVERRIDE override
+
+#cmakedefine FOLLY_USE_LIBCPP 1
+
+#cmakedefine FOLLY_HAVE_CONSTEXPR_STRLEN 1
+#cmakedefine FOLLY_HAVE_IFUNC 1
+#cmakedefine FOLLY_HAVE_STD__THIS_THREAD__SLEEP_FOR 1
+#cmakedefine FOLLY_HAVE_STD__IS_TRIVIALLY_COPYABLE 1
+#cmakedefine FOLLY_HAVE_VSNPRINTF_ERRORS 1
+#cmakedefine FOLLY_HAVE_WEAK_SYMBOLS 1
+#cmakedefine FOLLY_HAVE_XSI_STRERROR_R 1
+
+/* gflags */
+
+#cmakedefine FOLLY_GFLAGS_NAMESPACE @FOLLY_GFLAGS_NAMESPACE@
+#cmakedefine FOLLY_UNUSUAL_GFLAGS_NAMESPACE 1
+
+/* dynamic */
+
+#cmakedefine FOLLY_DYNAMIC_EXTEND_DATA 1
+
+/* logging */
+
+#cmakedefine FOLLY_USE_GLOG 1
+#cmakedefine FOLLY_LOG_USE_ABORT 1
+#cmakedefine FOLLY_LOG_TIMESTAMP 1
+
+/* unicode */
+
+#cmakedefine FOLLY_UNICODE_JAVA_API 1
+
+#endif /* FOLLY_CONFIG_H_ */
+

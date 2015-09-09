@@ -1,33 +1,27 @@
-# Find the Snappy libraries
+# Find SNAPPY - A fast compressor/decompressor
 #
-# The following variables are optionally searched for defaults
-#  Snappy_ROOT_DIR:    Base directory where all Snappy components are found
+# This module defines
+#  SNAPPY_FOUND - whether the qsjon library was found
+#  SNAPPY_LIBRARIES - the snappy library
+#  SNAPPY_INCLUDE_DIR - the include path of the snappy library
 #
-# The following are set after configuration is done:
-#  Snappy_FOUND
-#  Snappy_INCLUDE_DIRS
-#  Snappy_LIBS
 
-find_path(SNAPPY_INCLUDE_DIR
-    NAMES snappy.h
-    HINTS ${SNAPPY_ROOT_DIR}
-          ${SNAPPY_ROOT_DIR}/include
-)
-
-find_library(SNAPPY_LIBS
-    NAMES snappy
-    HINTS ${SNAPPY_ROOT_DIR}
-          ${SNAPPY_ROOT_DIR}/lib
-)
-
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Snappy
-    DEFAULT_MSG
-    SNAPPY_LIBS
-    SNAPPY_INCLUDE_DIR
-)
-
-mark_as_advanced(
-    SNAPPY_LIBS
-    SNAPPY_INCLUDE_DIR
-)
+if (SNAPPY_INCLUDE_DIR AND SNAPPY_LIBRARIES)
+  # Already in cache
+  set (SNAPPY_FOUND TRUE)
+else (SNAPPY_INCLUDE_DIR AND SNAPPY_LIBRARIES)
+  find_library (SNAPPY_LIBRARIES
+    NAMES
+    snappy
+    PATHS
+  )
+  find_path (SNAPPY_INCLUDE_DIR
+    NAMES
+    snappy.h
+    PATHS
+  )
+  include(FindPackageHandleStandardArgs)
+  find_package_handle_standard_args(SNAPPY DEFAULT_MSG
+      SNAPPY_LIBRARIES SNAPPY_INCLUDE_DIR)
+  mark_as_advanced(SNAPPY_LIBRARIES SNAPPY_INCLUDE_DIR)
+endif (SNAPPY_INCLUDE_DIR AND SNAPPY_LIBRARIES)

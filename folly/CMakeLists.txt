@@ -1,0 +1,195 @@
+#
+# Copyright (C) 2015, Yeolar
+#
+
+set(FOLLY_BASE_SRCS
+    Benchmark.cpp
+    Bits.cpp
+    Checksum.cpp
+    Conv.cpp
+    Demangle.cpp
+    dynamic.cpp
+    File.cpp
+    FileUtil.cpp
+    Format.cpp
+    GroupVarint.cpp
+    IPAddress.cpp
+    IPAddressV4.cpp
+    IPAddressV6.cpp
+    json.cpp
+    LifoSem.cpp
+    MacAddress.cpp
+    Malloc.cpp
+    MemoryMapping.cpp
+    Random.cpp
+    Range.cpp
+    SafeAssert.cpp
+    SharedMutex.cpp
+    Singleton.cpp
+    SingletonStackTrace.cpp
+    SingletonVault_c.cpp
+    SocketAddress.cpp
+    SpookyHashV1.cpp
+    SpookyHashV2.cpp
+    StringBase.cpp
+    String.cpp
+    Subprocess.cpp
+    ThreadCachedArena.cpp
+    TimeoutQueue.cpp
+    Unicode.cpp
+    Uri.cpp
+    Version.cpp
+    build/EscapeTables.cpp
+    build/FingerprintTables.cpp
+    build/FormatTables.cpp
+    build/GroupVarintTables.cpp
+    detail/CacheLocality.cpp
+    detail/Clock.cpp
+    detail/FunctionalExcept.cpp
+    detail/Futex.cpp
+    detail/MallocImpl.cpp
+    detail/MemoryIdler.cpp
+)
+add_library(folly_base OBJECT ${FOLLY_BASE_SRCS})
+
+
+#add_executable(GenerateFingerprintTables build/GenerateFingerprintTables.cpp)
+#target_link_libraries(GenerateFingerprintTables folly_static)
+
+
+install(FILES
+    ApplyTuple.h
+    Arena.h
+    Arena-inl.h
+    AtomicBitSet.h
+    AtomicHashArray.h
+    AtomicHashArray-inl.h
+    AtomicHashMap.h
+    AtomicHashMap-inl.h
+    AtomicLinkedList.h
+    AtomicStruct.h
+    AtomicUnorderedMap.h
+    Baton.h
+    Benchmark.h
+    Bits.h
+    Checksum.h
+    Chrono.h
+    ConcurrentSkipList.h
+    ConcurrentSkipList-inl.h
+    ContainerTraits.h
+    Conv.h
+    CPortability.h
+    CpuId.h
+    Demangle.h
+    DiscriminatedPtr.h
+    DynamicConverter.h
+    dynamic.h
+    dynamic-inl.h
+    EvictingCacheMap.h
+    Exception.h
+    ExceptionWrapper.h
+    Executor.h
+    FBString.h
+    FBVector.h
+    File.h
+    FileUtil.h
+    Fingerprint.h
+    Foreach.h
+    FormatArg.h
+    Format.h
+    Format-inl.h
+    FormatTraits.h
+    GroupVarint.h
+    Hash.h
+    IndexedMemPool.h
+    IntrusiveList.h
+    IPAddressException.h
+    IPAddress.h
+    IPAddressV4.h
+    IPAddressV6.h
+    json.h
+    Lazy.h
+    LifoSem.h
+    Likely.h
+    Logging.h
+    MacAddress.h
+    Malloc.h
+    MapUtil.h
+    Memory.h
+    MemoryMapping.h
+    Merge.h
+    MicroSpinLock.h
+    MoveWrapper.h
+    MPMCPipeline.h
+    MPMCQueue.h
+    Optional.h
+    PackedSyncPtr.h
+    Padded.h
+    PicoSpinLock.h
+    Portability.h
+    Preprocessor.h
+    ProducerConsumerQueue.h
+    Random.h
+    Random-inl.h
+    Range.h
+    RWSpinLock.h
+    SafeAssert.h
+    ScopeGuard.h
+    SharedMutex.h
+    Singleton.h
+    Singleton-inl.h
+    SingletonVault_c.h
+    SmallLocks.h
+    small_vector.h
+    SocketAddress.h
+    sorted_vector_types.h
+    SpinLock.h
+    SpookyHashV1.h
+    SpookyHashV2.h
+    String.h
+    String-inl.h
+    Subprocess.h
+    Synchronized.h
+    ThreadCachedArena.h
+    ThreadCachedInt.h
+    ThreadLocal.h
+    ThreadName.h
+    TimeoutQueue.h
+    Traits.h
+    Unicode.h
+    Uri.h
+    Uri-inl.h
+    Varint.h
+    VersionCheck.h
+    folly-config.h
+    DESTINATION include/folly
+)
+install(FILES
+    detail/AtomicHashUtils.h
+    detail/AtomicUnorderedMapUtils.h
+    detail/BitIteratorDetail.h
+    detail/BitsDetail.h
+    detail/CacheLocality.h
+    detail/ChecksumDetail.h
+    detail/Clock.h
+    detail/DiscriminatedPtrDetail.h
+    detail/ExceptionWrapper.h
+    detail/FileUtilDetail.h
+    detail/FingerprintPolynomial.h
+    detail/FunctionalExcept.h
+    detail/Futex.h
+    detail/GroupVarintDetail.h
+    detail/IPAddress.h
+    detail/Malloc.h
+    detail/MemoryIdler.h
+    detail/MPMCPipelineDetail.h
+    detail/Sleeper.h
+    detail/SlowFingerprint.h
+    detail/SpinLockImpl.h
+    detail/Stats.h
+    detail/ThreadLocalDetail.h
+    detail/TurnSequencer.h
+    detail/UncaughtExceptionCounter.h
+    DESTINATION include/folly/detail
+)
+

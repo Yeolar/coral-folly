@@ -3,16 +3,19 @@ required:
     libdouble-conversion-dev
     libgflags-dev
     libgoogle-glog-dev
+    libunwind-dev
+    libaio-dev
+    libdwarf-dev
+    liblz4-dev
+    liblzma-dev
+    libsnappy-dev
+    zlib1g-dev
     libevent-dev
     libssl-dev
 
 optional:
     libjemalloc-dev
     libicu-dev
-    liblz4-dev
-    liblzma-dev
-    libsnappy-dev
-    zlib1g-dev
 
 test:
     libgtest-dev

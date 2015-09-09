@@ -27,10 +27,7 @@
 *.out
 *.app
 
-/coral/coral-config.h
-
 /build/
-/build_/
-/sed-pattern
+/folly/folly-config.h
 
 .ycm_extra_conf.py*
